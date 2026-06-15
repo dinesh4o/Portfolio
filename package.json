@@ -1,0 +1,16 @@
+{
+  "name": "dinesh-portfolio",
+  "version": "1.0.0",
+  "description": "Framer static export served with Express",
+  "main": "server.js",
+  "scripts": {
+    "start": "node server.js",
+    "dev": "node server.js"
+  },
+  "dependencies": {
+    "express": "^4.19.2"
+  },
+  "devDependencies": {
+    "prettier": "^3.8.4"
+  }
+}
