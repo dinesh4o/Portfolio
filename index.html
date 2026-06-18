@@ -6,6 +6,25 @@
   <head>\n
 <script data-fast-observer="true">
 (function() {
+  // Global React Router Interceptor
+  document.addEventListener('click', function(e) {
+    let a = e.target.closest('a');
+    if (a) {
+      let href = a.getAttribute('href') || a.href || '';
+      href = href.toLowerCase();
+      let externalUrl = null;
+      if (href.includes('arjuna') || href.includes('aurex')) externalUrl = 'https://aurexai.vercel.app/';
+      if (href.includes('bima') || href.includes('hireme')) externalUrl = 'https://hiremeai.vercel.app/';
+      if (href.includes('batavia') || href.includes('luvara')) externalUrl = 'https://luvara.vercel.app/';
+      
+      if (externalUrl) {
+         e.preventDefault();
+         e.stopPropagation();
+         window.open(externalUrl, '_blank');
+      }
+    }
+  }, true);
+
   const projects = [
     { oldTitle: 'Arjuna', newTitle: 'Aurex', oldDesc: 'Personal Portfolio Website for talented design engineer', newDesc: 'AI-powered trading assistant with real-time analytics', img: 'aurex-mockup.png' },
     { oldTitle: 'Bima', newTitle: 'HireMe.ai', oldDesc: 'Website and branding for AI Automation Company', newDesc: 'AI recruitment platform with smart candidate matching', img: 'hireme-mockup.png' },
@@ -14,12 +33,191 @@
     { oldTitle: 'Nakula', newTitle: 'Dinesh', oldDesc: 'Nakula', newDesc: 'Dinesh', img: 'DINESH.png' }
   ];
 
+  const newProjects = [
+    { title: 'MongoDB Atlas Forum', desc: 'A full-stack forum app leveraging MongoDB Atlas and Next.js', img: 'mockup-mongodb.svg', link: 'https://mongodb-news-template-nextjs.vercel.app/' },
+    { title: 'SIH Smart Campus', desc: 'Award-winning frontend solution for Alumni Smart Campus', img: 'mockup-sih.svg', link: 'https://sih-alumini-smart-campus-frontend.vercel.app/' },
+    { title: 'Flow', desc: 'Interactive workflow automation engine', img: 'mockup-flow.svg', link: 'https://github.com/dinesh4o/Flow' },
+    { title: 'Portfolio Core', desc: 'Underlying architecture for this developer portfolio', img: 'mockup-portfolio.svg', link: 'https://github.com/dinesh4o/Portfolio' }
+  ];
+
+  const skillReplacements = {
+    'TECHNICAL SKILLS': 'DOMAIN EXPERTISE',
+    'HOW WE CAN HELP': 'DOMAIN EXPERTISE',
+    '(EXPERTISE)': '(SKILLS)',
+    '(SERVICES)': '(SKILLS)',
+    '(services)': '(SKILLS)',
+    'Web Design & Development': 'Artificial Intelligence & Agents',
+    'Web Design &amp; Development': 'Artificial Intelligence & Agents',
+    'Logos, colors, type, your brand, fully alive.': 'Building intelligent agents, LLMs, and scalable RAG pipelines.',
+    'Logos, colors, type, your project, fully alive.': 'Building intelligent agents, LLMs, and scalable RAG pipelines.',
+    'Branding': 'Machine Learning',
+    'Crafting visual identities that feel clear, timeless, and true to your brand.': 'Training, evaluating, and deploying machine learning and NLP models.',
+    'Social Media': 'Backend & DevOps',
+    'Branded templates and content systems to help you stay consistent and scroll-worthy.': 'Architecting robust APIs, scalable databases, and deployment pipelines.',
+    'Motion Design': 'Frontend & Core Basics',
+    'Dynamic animations that grab attention and bring your digital presence to life.': 'Building reactive user interfaces, interactions, and strong core logic.',
+    
+    // New Personalized Texts
+    'Full Time · Remote': 'Full Time',
+    'We build brands, websites, and digital experiences with intention, clarity and care.': 'I architect intelligent backend systems, scalable AI agents, and production-ready applications with precision and impact.',
+    'We build brands, websites, and digital experiences with intention, clarity, and care.': 'I architect intelligent backend systems, scalable AI agents, and production-ready applications with precision and impact.',
+    'I build AI-powered full-stack applications with intention, clarity, and care.': 'I architect intelligent backend systems, scalable AI agents, and production-ready applications with precision and impact.',
+    'We combines years of web design and branding expertise to craft meaningful, story-driven experiences.': 'I combine deep expertise in machine learning and scalable backend engineering to craft intelligent, data-driven solutions.',
+    'We combine years of web design and branding expertise to craft meaningful, story-driven experiences.': 'I combine deep expertise in machine learning and scalable backend engineering to craft intelligent, data-driven solutions.'
+  };
+
+  const chipMappings = {
+    'Responsive Design': ['LangChain', 'LangGraph'],
+    'LangChain & LangGraph': ['LangChain', 'LangGraph'],
+    'Interaction Design': ['Groq API', 'HuggingFace'],
+    'Groq API & HuggingFace': ['Groq API', 'HuggingFace'],
+    'Groq API & Open-Source LLMs': ['Groq API', 'HuggingFace'],
+    'CMS Integration': ['RAG', 'Vector Search'],
+    'RAG & Vector Search': ['RAG', 'Vector Search'],
+    'SEO Optimization': ['Chroma', 'Pinecone'],
+    'Chroma & Pinecone': ['Chroma', 'Pinecone'],
+    
+    'Logo Design': ['scikit-learn', 'Pandas'],
+    'scikit-learn & Pandas': ['scikit-learn', 'Pandas'],
+    'Color System': ['spaCy', 'NLP'],
+    'spaCy & NLP': ['spaCy', 'NLP'],
+    'Typography': ['NumPy', 'Matplotlib'],
+    'NumPy & Matplotlib': ['NumPy', 'Matplotlib'],
+    'Brand Direction': ['Data Analysis', 'EDA'],
+    'Data Analysis & EDA': ['Data Analysis', 'EDA'],
+    
+    'LeetCode Design': ['Python', 'FastAPI'],
+    'Post Design': ['Python', 'FastAPI'],
+    'Python & FastAPI': ['Python', 'FastAPI'],
+    'Story Kits': ['Node.js', 'REST APIs'],
+    'Node.js & REST APIs': ['Node.js', 'REST APIs'],
+    'Content Templates': ['MongoDB', 'Postgres'],
+    'MongoDB & Postgres': ['MongoDB', 'Postgres'],
+    'Visual Consistency': ['Docker', 'Git', 'CI/CD'],
+    'Docker, Git & CI/CD': ['Docker', 'Git', 'CI/CD'],
+    
+    'UI Animation': ['React', 'Next.js', 'TS'],
+    'React, Next.js & TS': ['React', 'Next.js', 'TypeScript'],
+    'React & TypeScript': ['React', 'TypeScript'],
+    'Lottie Animations': ['Vite', 'Tailwind CSS'],
+    'Vite & Tailwind CSS': ['Vite', 'Tailwind CSS'],
+    'Micro-interactions': ['Framer Motion', 'GSAP'],
+    'Framer Motion & GSAP': ['Framer Motion', 'GSAP'],
+    'Promo Videos': ['C / C++', 'Java', 'Go'],
+    'C, C++, Java, Go & Python': ['C / C++', 'Java', 'Go', 'Python']
+  };
+
   function processNode(node) {
-    if (node.nodeType === 3) { // Text node
+    if (node.nodeType === 3) {
       let text = node.nodeValue.trim();
       if (!text) return;
       
-      // Global Nakula replacements
+      // Basic Replacements
+      for (const [search, replace] of Object.entries(skillReplacements)) {
+        if (text === search || node.nodeValue.includes(search)) {
+          node.nodeValue = node.nodeValue.split(search).join(replace);
+          text = node.nodeValue.trim();
+        }
+      }
+
+      // Chip Splitting
+      for (const [search, newLabels] of Object.entries(chipMappings)) {
+        if (text === search) {
+          node.nodeValue = newLabels[0];
+          
+          let chip = node.parentElement;
+          while (chip && chip !== document.body) {
+            if (chip.previousElementSibling || chip.nextElementSibling) {
+               break; 
+            }
+            chip = chip.parentElement;
+          }
+          
+          if (chip && !chip.dataset.cloned) {
+             chip.dataset.cloned = 'true';
+             for (let i = 1; i < newLabels.length; i++) {
+                 let clone = chip.cloneNode(true);
+                 clone.dataset.cloned = 'true';
+                 const walker = document.createTreeWalker(clone, NodeFilter.SHOW_TEXT, null, false);
+                 let cloneTextNode;
+                 while (cloneTextNode = walker.nextNode()) {
+                    if (cloneTextNode.nodeValue.includes(newLabels[0])) {
+                        cloneTextNode.nodeValue = newLabels[i];
+                    }
+                 }
+                 if (chip.parentElement) {
+                     chip.parentElement.appendChild(clone);
+                 }
+             }
+             
+             if (chip.parentElement) {
+                chip.parentElement.style.flexWrap = 'wrap';
+                chip.parentElement.style.gap = '10px';
+             }
+          }
+        }
+      }
+
+      // Nakula & Logo logic
+      if (text.toLowerCase().includes('trusted by:')) {
+        node.nodeValue = node.nodeValue.replace(/trusted by:/i, 'TECH STACK:');
+        let container = node.parentElement;
+        while (container && container.getAttribute('data-framer-name') !== 'trusted by:' && container !== document.body) {
+          container = container.parentElement;
+        }
+        if (container && container.nextElementSibling && container.nextElementSibling.classList.contains('framer-vhmnju-container')) {
+          let carousel = container.nextElementSibling;
+          if (!carousel.dataset.modified) {
+            carousel.dataset.modified = 'true';
+            const techSlugs = ['langchain', 'langgraph', 'python', 'c', 'cplusplus', 'openjdk', 'typescript', 'opencv', 'docker', 'nextdotjs', 'pytorch', 'huggingface', 'supabase', 'tailwindcss', 'git'];
+            let ul = carousel.querySelector('ul');
+            if (ul) {
+              let lis = Array.from(ul.querySelectorAll('li'));
+              let templateLi = lis[0];
+              while (lis.length < techSlugs.length) {
+                let clone = templateLi.cloneNode(true);
+                ul.appendChild(clone);
+                lis.push(clone);
+              }
+              lis.forEach((li, idx) => {
+                let slug = techSlugs[idx % techSlugs.length];
+                let img = li.querySelector('img');
+                if (img) {
+                  const logoUrl = 'https://cdn.simpleicons.org/' + slug + '/888888';
+                  img.removeAttribute('width');
+                  img.removeAttribute('height');
+                  img.removeAttribute('sizes');
+                  img.srcset = '';
+                  img.src = logoUrl;
+                  img.style.setProperty('content', 'url("' + logoUrl + '")', 'important');
+                  img.style.objectFit = 'contain';
+                  img.style.width = '40px';
+                  img.style.height = '40px';
+                  img.style.position = 'relative';
+                  img.style.display = 'block';
+                  if (img.parentElement) {
+                    img.parentElement.style.position = 'relative';
+                    img.parentElement.style.display = 'flex';
+                    img.parentElement.style.alignItems = 'center';
+                    img.parentElement.style.justifyContent = 'center';
+                    img.parentElement.style.height = '40px';
+                    img.parentElement.style.width = '40px';
+                    if (img.parentElement.parentElement) {
+                      img.parentElement.parentElement.style.height = '40px';
+                      img.parentElement.parentElement.style.width = '40px';
+                    }
+                  }
+                  li.style.margin = '0 25px';
+                  li.style.display = 'flex';
+                  li.style.alignItems = 'center';
+                  li.style.height = '100%';
+                }
+              });
+            }
+          }
+        }
+      }
+
       if (node.nodeValue.includes('Nakula')) {
         node.nodeValue = node.nodeValue.replace(/Nakula/g, 'Dinesh');
       }
@@ -30,7 +228,6 @@
       projects.forEach(p => {
         if (text === p.oldTitle) {
           node.nodeValue = node.nodeValue.replace(p.oldTitle, p.newTitle);
-          // Find container to swap image instantly
           let container = node.parentElement;
           while (container && container.tagName !== 'A' && !container.getAttribute('data-framer-component-type') && container !== document.body) {
             container = container.parentElement;
@@ -39,7 +236,6 @@
             let imgs = container.querySelectorAll('img');
             imgs.forEach(img => {
               if (!img.src.includes(p.img)) {
-                // Force CSS visual override instantly before paint
                 img.style.setProperty('content', "url('./images/" + p.img + "')", 'important');
                 img.style.objectFit = 'cover';
                 img.src = './images/' + p.img;
@@ -52,14 +248,9 @@
           node.nodeValue = node.nodeValue.replace(p.oldDesc, p.newDesc);
         }
       });
-    } else if (node.nodeType === 1) { // Element node
-      if (node.tagName === 'IMG') {
-         // Add logic here if needed for direct img interception
-      }
     }
   }
 
-  // Intercept all DOM additions dynamically and synchronously
   const observer = new MutationObserver(mutations => {
     mutations.forEach(m => {
       if (m.type === 'childList') {
@@ -80,6 +271,56 @@
     });
   });
 
+  setInterval(() => {
+    // Add new projects to grid if on works page
+    let luvaraText = document.evaluate('//text()[contains(., "Luvara") or contains(., "Batavia")]', document, null, XPathResult.FIRST_ORDERED_NODE_TYPE, null).singleNodeValue;
+    if (luvaraText) {
+        let card = luvaraText.parentElement.closest('a');
+        if (card && card.parentElement && !card.parentElement.dataset.clonedGrid) {
+            card.parentElement.dataset.clonedGrid = 'true';
+            
+            // The container holds the cards. Let's append our 4 new projects!
+            let container = card.parentElement;
+            
+            newProjects.forEach(np => {
+                let clone = card.cloneNode(true);
+                
+                // Set href
+                clone.setAttribute('href', np.link);
+                clone.setAttribute('target', '_blank');
+                
+                // Replace title and desc
+                let cloneTitle = document.evaluate('.//text()[contains(., "Luvara") or contains(., "Batavia")]', clone, null, XPathResult.FIRST_ORDERED_NODE_TYPE, null).singleNodeValue;
+                if (cloneTitle) cloneTitle.nodeValue = np.title;
+                
+                let cloneDesc = document.evaluate('.//text()[contains(., "Scale Your Brand") or contains(., "AI Drug")]', clone, null, XPathResult.FIRST_ORDERED_NODE_TYPE, null).singleNodeValue;
+                if (cloneDesc) cloneDesc.nodeValue = np.desc;
+                
+                // Replace image
+                let img = clone.querySelector('img');
+                if (img) {
+                    img.style.setProperty('content', "url('./images/" + np.img + "')", 'important');
+                    img.style.objectFit = 'cover';
+                    img.src = './images/' + np.img;
+                    img.srcset = '';
+                }
+                
+                container.appendChild(clone);
+            });
+        }
+    }
+    
+    // Shift logos
+    let logos = document.querySelector('.framer-f619q0');
+    if (logos && !logos.dataset.shifted) {
+      logos.dataset.shifted = 'true';
+      logos.style.transform = 'translateY(-60px)';
+      if (logos.previousElementSibling) {
+        logos.previousElementSibling.style.transform = 'translateY(-60px)';
+      }
+    }
+  }, 1000);
+
   observer.observe(document.documentElement, {
     childList: true,
     subtree: true,
@@ -87,6 +328,10 @@
   });
 })();
 </script>
+
+
+
+
 \n
 
 \n
@@ -867,7 +1112,24 @@
           content: url("/images/luvara-mockup.png") !important;
         }
       
-    </style>
+    
+  /* Hide Blog section */
+  [data-framer-name="Blog"],
+  .framer-jq0ndk {
+    display: none !important;
+  }
+  
+  /* Fix violet link colors */
+  a[href*="github.com"],
+  a[href*="linkedin.com"],
+  a {
+    color: inherit !important;
+    text-decoration: none !important;
+  }
+  
+  /* Preserve specific colors if needed, but inherit is safe for social icons */
+</style>
+
     <link crossorigin="" href="https://fonts.gstatic.com" rel="preconnect" />
     <meta content="max-image-preview:large" name="robots" />
     <link href="/" rel="canonical" />
@@ -13204,7 +13466,23 @@
 
 
 
+
+<style id="custom-hiding-styles">
+  /* Hide tech stack from hero */
+  .framer-f619q0,
+  [data-framer-name="Logos"] {
+    display: none !important;
+  }
+  
+  /* Hide WHY ME / Metrics section */
+  [data-framer-name="Why us"],
+  [data-framer-name="Testimonial highlight"],
+  [data-framer-name="Testimonials"] {
+    display: none !important;
+  }
+</style>
 </head>
+
   <body>
     <script
       async=""
@@ -20331,14 +20609,14 @@
                 <div
                   class="framer-10eikez"
                   data-framer-component-type="RichTextContainer"
-                  data-framer-name="(services)"
+                  data-framer-name="(EXPERTISE)"
                   style="transform: none"
                 >
                   <p
                     class="framer-text framer-styles-preset-186rn72"
                     data-styles-preset="HyNmndrGv"
                   >
-                    (SERVICES)
+                    (EXPERTISE)
                   </p>
                 </div>
               </div>
@@ -20616,7 +20894,7 @@
                                     <div
                                       class="framer-dj5od1"
                                       data-framer-component-type="RichTextContainer"
-                                      data-framer-name="Logos, colors, type, your project, fully alive."
+                                      data-framer-name="Intelligent agents, LLM orchestration, and scalable RAG pipelines."
                                       style="
                                         --framer-paragraph-spacing: 0px;
                                         transform: none;
@@ -21125,7 +21403,7 @@
                                     <div
                                       class="framer-dj5od1"
                                       data-framer-component-type="RichTextContainer"
-                                      data-framer-name="Logos, colors, type, your project, fully alive."
+                                      data-framer-name="Intelligent agents, LLM orchestration, and scalable RAG pipelines."
                                       style="
                                         --framer-paragraph-spacing: 0px;
                                         transform: none;
@@ -21639,7 +21917,7 @@
                                     <div
                                       class="framer-dj5od1"
                                       data-framer-component-type="RichTextContainer"
-                                      data-framer-name="Logos, colors, type, your project, fully alive."
+                                      data-framer-name="Intelligent agents, LLM orchestration, and scalable RAG pipelines."
                                       style="
                                         --framer-paragraph-spacing: 0px;
                                         transform: none;
@@ -21762,7 +22040,7 @@
                                               );
                                             "
                                           >
-                                            Story Kits
+                                            Node.js & REST APIs
                                           </p>
                                         </div>
                                       </div>
@@ -21816,7 +22094,7 @@
                                               );
                                             "
                                           >
-                                            Content Templates
+                                            SSE Streaming
                                           </p>
                                         </div>
                                       </div>
@@ -22153,7 +22431,7 @@
                                     <div
                                       class="framer-dj5od1"
                                       data-framer-component-type="RichTextContainer"
-                                      data-framer-name="Logos, colors, type, your project, fully alive."
+                                      data-framer-name="Intelligent agents, LLM orchestration, and scalable RAG pipelines."
                                       style="
                                         --framer-paragraph-spacing: 0px;
                                         transform: none;
@@ -22222,7 +22500,7 @@
                                               );
                                             "
                                           >
-                                            Micro-interactions
+                                            Docker & Git
                                           </p>
                                         </div>
                                       </div>
@@ -22674,7 +22952,7 @@
                                     <div
                                       class="framer-dj5od1"
                                       data-framer-component-type="RichTextContainer"
-                                      data-framer-name="Logos, colors, type, your project, fully alive."
+                                      data-framer-name="Intelligent agents, LLM orchestration, and scalable RAG pipelines."
                                       style="
                                         --framer-paragraph-spacing: 0px;
                                         transform: none;
@@ -23277,7 +23555,7 @@
                                     <div
                                       class="framer-dj5od1"
                                       data-framer-component-type="RichTextContainer"
-                                      data-framer-name="Logos, colors, type, your project, fully alive."
+                                      data-framer-name="Intelligent agents, LLM orchestration, and scalable RAG pipelines."
                                       style="
                                         --framer-paragraph-spacing: 0px;
                                         transform: none;
@@ -23877,7 +24155,7 @@
                                     <div
                                       class="framer-dj5od1"
                                       data-framer-component-type="RichTextContainer"
-                                      data-framer-name="Logos, colors, type, your project, fully alive."
+                                      data-framer-name="Intelligent agents, LLM orchestration, and scalable RAG pipelines."
                                       style="
                                         --framer-paragraph-spacing: 0px;
                                         transform: none;
@@ -24000,7 +24278,7 @@
                                               );
                                             "
                                           >
-                                            Story Kits
+                                            Node.js & REST APIs
                                           </p>
                                         </div>
                                       </div>
@@ -24054,7 +24332,7 @@
                                               );
                                             "
                                           >
-                                            Content Templates
+                                            SSE Streaming
                                           </p>
                                         </div>
                                       </div>
@@ -24481,7 +24759,7 @@
                                     <div
                                       class="framer-dj5od1"
                                       data-framer-component-type="RichTextContainer"
-                                      data-framer-name="Logos, colors, type, your project, fully alive."
+                                      data-framer-name="Intelligent agents, LLM orchestration, and scalable RAG pipelines."
                                       style="
                                         --framer-paragraph-spacing: 0px;
                                         transform: none;
@@ -24550,7 +24828,7 @@
                                               );
                                             "
                                           >
-                                            Micro-interactions
+                                            Docker & Git
                                           </p>
                                         </div>
                                       </div>
@@ -25103,7 +25381,7 @@
                                     <div
                                       class="framer-dj5od1"
                                       data-framer-component-type="RichTextContainer"
-                                      data-framer-name="Logos, colors, type, your project, fully alive."
+                                      data-framer-name="Intelligent agents, LLM orchestration, and scalable RAG pipelines."
                                       style="
                                         --framer-paragraph-spacing: 0px;
                                         transform: none;
@@ -25706,7 +25984,7 @@
                                     <div
                                       class="framer-dj5od1"
                                       data-framer-component-type="RichTextContainer"
-                                      data-framer-name="Logos, colors, type, your project, fully alive."
+                                      data-framer-name="Intelligent agents, LLM orchestration, and scalable RAG pipelines."
                                       style="
                                         --framer-paragraph-spacing: 0px;
                                         transform: none;
@@ -26306,7 +26584,7 @@
                                     <div
                                       class="framer-dj5od1"
                                       data-framer-component-type="RichTextContainer"
-                                      data-framer-name="Logos, colors, type, your project, fully alive."
+                                      data-framer-name="Intelligent agents, LLM orchestration, and scalable RAG pipelines."
                                       style="
                                         --framer-paragraph-spacing: 0px;
                                         transform: none;
@@ -26429,7 +26707,7 @@
                                               );
                                             "
                                           >
-                                            Story Kits
+                                            Node.js & REST APIs
                                           </p>
                                         </div>
                                       </div>
@@ -26483,7 +26761,7 @@
                                               );
                                             "
                                           >
-                                            Content Templates
+                                            SSE Streaming
                                           </p>
                                         </div>
                                       </div>
@@ -26910,7 +27188,7 @@
                                     <div
                                       class="framer-dj5od1"
                                       data-framer-component-type="RichTextContainer"
-                                      data-framer-name="Logos, colors, type, your project, fully alive."
+                                      data-framer-name="Intelligent agents, LLM orchestration, and scalable RAG pipelines."
                                       style="
                                         --framer-paragraph-spacing: 0px;
                                         transform: none;
@@ -26979,7 +27257,7 @@
                                               );
                                             "
                                           >
-                                            Micro-interactions
+                                            Docker & Git
                                           </p>
                                         </div>
                                       </div>
@@ -48406,5 +48684,129 @@
     }, 1500);
   })();
 </script>
-\n</body>
+\n
+
+
+
+
+
+<script id="custom-project-injector">
+let appliedPath = '';
+setInterval(() => {
+   const currentPath = window.location.pathname;
+
+   const links = document.querySelectorAll('a[href*="./works/"], a[href*="works/"]');
+   const linkMap = {
+      'aurex': '/works/aurex',
+      'luvara': '/works/luvara',
+      'hireme-ai': '/works/hireme',
+      'hireme': '/works/hireme',
+      'blueprints': '/works/espresso',
+      'blockhaus': '/works/sih',
+      'batavia': '/works/luvara',
+      'bima': '/works/hireme',
+      'arjuna': '/works/aurex',
+      'mandala': '/works/portfolio'
+   };
+   
+   links.forEach(link => {
+       if (!link.dataset.livewired) {
+           link.dataset.livewired = 'true';
+           const href = link.getAttribute('href').toLowerCase();
+           for (const [key, url] of Object.entries(linkMap)) {
+               if (href.includes(key)) {
+                   link.setAttribute('href', url);
+               }
+           }
+       }
+   });
+
+   // Hide Blueprints and Blockhaus
+   document.querySelectorAll('*').forEach(el => {
+       if (el.innerText && (el.innerText === 'Blueprints 2026' || el.innerText === 'Blockhaus' || el.innerText === 'Mandala' || el.innerText === 'Blueprints')) {
+           let card = el.closest('a[href*="./works/"]') || el.closest('a[href*="works/"]') || el.closest('.framer-1ar');
+           if (card && card.style.display !== 'none') {
+               card.style.display = 'none';
+               card.dataset.hidden = 'true';
+           }
+       }
+   });
+
+   // Only append clones if we are ON the works page (/works)
+   if (currentPath.includes('works') && appliedPath !== currentPath) {
+       const existingCards = Array.from(document.querySelectorAll('a[href*="./works/"], a[href*="works/"]')).filter(c => c.style.display !== 'none' && !c.dataset.hidden && !c.dataset.clonednew);
+       
+       if (existingCards.length > 0) {
+           // Try to find the actual grid card (usually has some height > 100)
+           let templateCard = existingCards.find(c => c.offsetHeight > 100);
+           if (!templateCard) templateCard = existingCards[0];
+           
+           const gridContainer = templateCard.parentElement;
+
+           if (!gridContainer.dataset.injectedNewProjects) {
+               gridContainer.dataset.injectedNewProjects = 'true';
+               appliedPath = currentPath;
+
+               const newProjects = [
+                   { title: 'Espresso', desc: 'Meet your new Interview Buddy', img: './images/espresso.jpg', url: '/works/espresso' },
+                   { title: 'SIH Smart Campus', desc: 'Alumni Smart Campus Frontend', img: './images/premium-sih.svg', url: '/works/sih' },
+                   { title: 'Flow', desc: 'Live Placeholder', img: './images/premium-flow.svg', url: '/works/flow' },
+                   { title: 'Portfolio', desc: 'My Portfolio Website', img: './images/premium-portfolio.svg', url: '/works/portfolio' }
+               ];
+
+               newProjects.forEach(proj => {
+                   let clone = templateCard.cloneNode(true);
+                   clone.style.display = ''; 
+                   clone.dataset.clonednew = 'true';
+                   
+                   clone.setAttribute('href', proj.url);
+                   
+                   let img = clone.querySelector('img');
+                   if (img) {
+                       img.src = proj.img;
+                       img.srcset = '';
+                       img.style.setProperty('content', 'url("' + proj.img + '")', 'important');
+                       img.style.objectFit = 'contain'; 
+                       img.style.width = '100%';
+                       img.style.height = '100%';
+                   }
+
+                   const walker = document.createTreeWalker(clone, NodeFilter.SHOW_TEXT, null, false);
+                   let textNode;
+                   let texts = [];
+                   while (textNode = walker.nextNode()) {
+                       if (textNode.nodeValue.trim().length > 0) {
+                           texts.push(textNode);
+                       }
+                   }
+                   
+                   if (texts.length >= 2) {
+                       texts[0].nodeValue = proj.title;
+                       texts[1].nodeValue = proj.desc;
+                   } else if (texts.length === 1) {
+                       texts[0].nodeValue = proj.title;
+                   }
+                   
+                   gridContainer.appendChild(clone);
+               });
+           }
+       }
+   } else if (!currentPath.includes('works')) {
+       appliedPath = '';
+   }
+
+   // Failsafe to clean up any accidentally injected mockups on homepage
+   if (!currentPath.includes('works')) {
+       document.querySelectorAll('a[data-clonednew="true"]').forEach(el => el.remove());
+   }
+
+}, 500);
+</script>
+
+
+
+
+
+
+</body>
 </html>
