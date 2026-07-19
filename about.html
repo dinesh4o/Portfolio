@@ -24451,9 +24451,11 @@ var walker = d.createTreeWalker(d.body, NodeFilter.SHOW_TEXT, { acceptNode: func
 \n
 
 \n
-<script id="nakula-ui-fix-v9">
+
+\n
+<script id="nakula-ui-fix-v10">
 (function() {
-    if (!window.__nakulaTextPatchedV9) {
+    if (!window.__nakulaTextPatchedV10) {
         window.__nakulaTextPatchedV9 = true;
 
         const R = [
@@ -24584,7 +24586,7 @@ var walker = d.createTreeWalker(d.body, NodeFilter.SHOW_TEXT, { acceptNode: func
             });
 
             // 2. Contact Form Wrapper Fix
-            if (path.includes('contact') && !document.getElementById('injected-dinesh-contact-v9')) {
+            if (path.includes('contact') && !document.getElementById('injected-dinesh-contact-v10')) {
                 // hide old versions
                 const oldv7 = document.getElementById('injected-dinesh-contact');
                 if (oldv7) oldv7.style.display = 'none';
@@ -24681,7 +24683,7 @@ var walker = d.createTreeWalker(d.body, NodeFilter.SHOW_TEXT, { acceptNode: func
                     }
                 });
 
-                if (!document.getElementById('injected-dinesh-story-v9')) {
+                if (!document.getElementById('injected-dinesh-story-v10')) {
                     const topSection = document.querySelector('div[data-framer-name="Top"]');
                     if (topSection) {
                         topSection.style.position = 'relative';
@@ -24762,8 +24764,23 @@ var walker = d.createTreeWalker(d.body, NodeFilter.SHOW_TEXT, { acceptNode: func
                 }
             });
 
-            // 7. Image Mockup overrides for index/works (V9 FIX - CAPTURE CAROUSEL MOCKUPS SAFELY)
-            if (path === '/' || path === '/index.html' || path === '' || path.includes('works')) {
+            // 7. Image Mockup overrides for index/works (V10 FIX - CAPTURE CAROUSEL MOCKUPS BY ARRAY INDEX)
+            if (path === '/' || path === '/index.html' || path === '') {
+                const sliderImgs = Array.from(document.querySelectorAll('img')).filter(img => img.getAttribute('height') === '1340' || (img.width > 500 && img.height > 500 && !img.closest('a')));
+                
+                sliderImgs.forEach((img, i) => {
+                    const mod = i % 5;
+                    if (mod === 0) img.setAttribute('src', '/images/aurex-mockup.png');
+                    if (mod === 1) img.setAttribute('src', '/images/hireme-mockup.png');
+                    if (mod === 2) img.setAttribute('src', '/images/luvara-mockup.png');
+                    if (mod === 3) img.setAttribute('src', '/images/DINESH.png');
+                    if (mod === 4) img.setAttribute('src', '/images/portfolio/portfolio-mockup.png');
+                    
+                    img.removeAttribute('srcset');
+                    img.style.objectFit = 'contain';
+                });
+            }
+            if (path.includes('works')) {
                 document.querySelectorAll('img').forEach(img => {
                     const src = img.getAttribute('src') || '';
                     const parentA = img.closest('a');
@@ -24771,45 +24788,38 @@ var walker = d.createTreeWalker(d.body, NodeFilter.SHOW_TEXT, { acceptNode: func
                     
                     if (parentA) {
                         targetProject = parentA.getAttribute('href') || '';
-                    } else {
-                        // Fallback: look at nearby text node, but limit string length to < 300 to avoid matching entire page!
-                        let parent = img.parentElement;
-                        for (let i=0; i<4; i++) {
-                            if (parent && parent.textContent) {
-                                const txt = parent.textContent.trim();
-                                if (txt.length > 0 && txt.length < 300) {
-                                    targetProject = txt.toLowerCase();
-                                    break;
-                                }
-                            }
-                            if (parent) parent = parent.parentElement;
-                        }
                     }
 
                     if (targetProject) {
                         targetProject = targetProject.toLowerCase();
                         if (targetProject.includes('aurexai') || targetProject.includes('arjuna') || targetProject.includes('aurex')) {
-                            if (!src.includes('aurex-mockup.png')) img.setAttribute('src', '/images/aurex-mockup.png');
+                            img.setAttribute('src', '/images/aurex-mockup.png');
+                            img.removeAttribute('srcset');
                             img.style.objectFit = 'contain';
                         }
                         else if (targetProject.includes('hiremeai') || targetProject.includes('bima') || targetProject.includes('hireme')) {
-                            if (!src.includes('hireme-mockup.png')) img.setAttribute('src', '/images/hireme-mockup.png');
+                            img.setAttribute('src', '/images/hireme-mockup.png');
+                            img.removeAttribute('srcset');
                             img.style.objectFit = 'contain';
                         }
                         else if (targetProject.includes('luvara.vercel') || targetProject.includes('batavia') || targetProject.includes('luvara')) {
-                            if (!src.includes('luvara-mockup.png')) img.setAttribute('src', '/images/luvara-mockup.png');
+                            img.setAttribute('src', '/images/luvara-mockup.png');
+                            img.removeAttribute('srcset');
                             img.style.objectFit = 'contain';
                         }
                         else if (targetProject.includes('mandala') || targetProject.includes('blueprints')) {
-                            if (!src.includes('DINESH.png')) img.setAttribute('src', '/images/DINESH.png');
+                            img.setAttribute('src', '/images/DINESH.png');
+                            img.removeAttribute('srcset');
                             img.style.objectFit = 'contain';
                         }
                         else if (targetProject.includes('portfolio')) {
-                            if (!src.includes('portfolio-mockup.png')) img.setAttribute('src', '/images/portfolio/portfolio-mockup.png');
+                            img.setAttribute('src', '/images/portfolio/portfolio-mockup.png');
+                            img.removeAttribute('srcset');
                             img.style.objectFit = 'contain';
                         }
                         else if (targetProject.includes('sih')) {
-                            if (!src.includes('sih-mockup.png')) img.setAttribute('src', '/images/SIH/sih-mockup.png');
+                            img.setAttribute('src', '/images/SIH/sih-mockup.png');
+                            img.removeAttribute('srcset');
                             img.style.objectFit = 'contain';
                         }
                     }
@@ -24823,7 +24833,7 @@ var walker = d.createTreeWalker(d.body, NodeFilter.SHOW_TEXT, { acceptNode: func
                     const lastLink = projectLinks[projectLinks.length - 1];
                     const container = lastLink.parentElement;
                     
-                    if (container && !document.getElementById('injected-sih-card-v9')) {
+                    if (container && !document.getElementById('injected-sih-card-v10')) {
                         const sihCard = lastLink.cloneNode(true);
                         sihCard.id = 'injected-sih-card-v9';
                         sihCard.setAttribute('href', 'https://sih-alumini-smart-campus-frontend.vercel.app/');
@@ -24846,7 +24856,7 @@ var walker = d.createTreeWalker(d.body, NodeFilter.SHOW_TEXT, { acceptNode: func
                         container.appendChild(sihCard);
                     }
                     
-                    if (container && !document.getElementById('injected-portfolio-card-v9')) {
+                    if (container && !document.getElementById('injected-portfolio-card-v10')) {
                         const portCard = lastLink.cloneNode(true);
                         portCard.id = 'injected-portfolio-card-v9';
                         portCard.setAttribute('href', 'https://github.com/dinesh4o/Portfolio');
