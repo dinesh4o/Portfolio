@@ -14,7 +14,7 @@ const projects = [
 ];
 
 let templateHtml = fs.readFileSync('template_arjuna.html', 'utf8');
-templateHtml = templateHtml.replace('</head>', '<style>[data-framer-name="Start"], [data-framer-name="Loader"] { display: none !important; opacity: 0 !important; visibility: hidden !important; z-index: -1 !important; }</style></head>');
+templateHtml = templateHtml.replace('</head>', '<style>[data-framer-name="Start"], [data-framer-name="Loader"] { display: none !important; opacity: 0 !important; visibility: hidden !important; z-index: -1 !important; } [data-framer-name="Testimonial highlight"] { display: none !important; }</style></head>');
 const worksHtml = fs.readFileSync('works.1.html', 'utf8');
 const ctaStartIndex = worksHtml.indexOf('<section class="framer-txjj5d" data-framer-name="CTA Wrapper">');
 const worksBottomHtml = ctaStartIndex !== -1 ? worksHtml.substring(ctaStartIndex, worksHtml.indexOf('</body>')) : '';
@@ -131,6 +131,20 @@ projects.forEach(p => {
       let text = node.nodeValue.trim();
       if (!text) return;
 
+      
+      if (node.nodeValue.includes('Bima')) {
+        node.nodeValue = node.nodeValue.replace('Bima', 'HireMe.ai');
+      }
+      if (node.nodeValue.includes('Mandala')) {
+        node.nodeValue = node.nodeValue.replace('Mandala', 'Portfolio');
+      }
+      if (node.nodeValue.includes('Website and branding for AI Automation Company')) {
+        node.nodeValue = node.nodeValue.replace('Website and branding for AI Automation Company', 'AI recruitment platform with smart candidate matching');
+      }
+      if (node.nodeValue.includes('Creative Growth Partner for Modern Brands')) {
+        node.nodeValue = node.nodeValue.replace('Creative Growth Partner for Modern Brands', 'Personal portfolio showcasing design engineering skills');
+      }
+
       if (text === 'Personal Portfolio Website for talented design engineer' || node.nodeValue.includes('Personal Portfolio Website for talented design engineer')) {
         node.nodeValue = node.nodeValue.replace('Personal Portfolio Website for talented design engineer', p.desc);
       }
@@ -242,10 +256,49 @@ projects.forEach(p => {
     });
 
     // Replace images
+    
+    document.querySelectorAll('a').forEach(a => {
+        let href = a.getAttribute('href');
+        if (href === './bima') a.setAttribute('href', './hireme.html');
+        if (href === './mandala') a.setAttribute('href', './portfolio.html');
+    });
+
     document.querySelectorAll('img').forEach(img => {
       const src = img.src || img.getAttribute('src') || '';
       
       // Fix for Splash Screen Logo
+      
+      // Fix Navbar Logo
+      if (src.includes('3X1HO3X74cUE2rChqeNy9aFq20')) {
+          if (!img.dataset.navbarFixed) {
+              img.dataset.navbarFixed = 'true';
+              img.style.setProperty('content', 'url("../images/DINESH.png")', 'important');
+              img.style.objectFit = 'contain';
+              img.src = '../images/DINESH.png';
+              img.srcset = '';
+          }
+      }
+      // Fix Bima image
+      else if (src.includes('x1W4oQBvmcvuOt4GlWOEKQMUUOc')) {
+          if (!img.dataset.bimaFixed) {
+              img.dataset.bimaFixed = 'true';
+              img.style.setProperty('content', 'url("../images/hireme-mockup.png")', 'important');
+              img.style.objectFit = 'cover';
+              img.src = '../images/hireme-mockup.png';
+              img.srcset = '';
+          }
+      }
+      // Fix Mandala image
+      else if (src.includes('c2h891xH23Gq7W4lO7vQfQzPTE')) {
+          if (!img.dataset.mandalaFixed) {
+              img.dataset.mandalaFixed = 'true';
+              img.style.setProperty('content', 'url("../images/mockup-portfolio.svg")', 'important');
+              img.style.objectFit = 'cover';
+              img.src = '../images/mockup-portfolio.svg';
+              img.srcset = '';
+          }
+      }
+
       if (src.includes('CQA5T3Vhi3GK8vZJPeYCoOXi1k')) {
          if (!img.dataset.splashFixed) {
              img.dataset.splashFixed = 'true';
