@@ -1,17 +1,21 @@
 const fs = require('fs');
 
 const projects = [
-    { id: 'aurex', title: 'Aurex', desc: 'AI-powered trading assistant with real-time analytics', img: 'aurex-mockup.png', url: 'https://aurexai.vercel.app/' },
-    { id: 'hireme', title: 'HireMe.ai', desc: 'AI recruitment platform with smart candidate matching', img: 'hireme-mockup.png', url: 'https://hiremeai.vercel.app/' },
-    { id: 'luvara', title: 'Luvara', desc: 'AI Drug Repurposing Platform for accelerated discovery', img: 'luvara-mockup.png', url: 'https://luvara.vercel.app/' },
-    { id: 'espresso', title: 'Espresso', desc: 'Meet your new Interview Buddy', img: 'espresso.jpg', url: 'https://espresso-interview-buddy.vercel.app/' },
-    { id: 'sih', title: 'SIH Smart Campus', desc: 'Alumni Smart Campus Frontend', img: 'premium-sih.svg', url: 'https://sih-alumini-smart-campus-frontend.vercel.app/' },
-    { id: 'flow', title: 'Flow', desc: 'Live Placeholder', img: 'premium-flow.svg', url: 'https://github.com/dinesh4o/Flow' },
-    { id: 'portfolio', title: 'Portfolio', desc: 'My Portfolio Website', img: 'premium-portfolio.svg', url: 'https://github.com/dinesh4o/Portfolio' }
+    { id: 'aurex', title: 'Aurex', desc: 'AI-powered trading assistant with real-time analytics', img: 'aurex-mockup.png', url: 'https://aurexai.vercel.app/', github: '-' },
+    { id: 'hireme', title: 'HireMe.ai', desc: 'AI recruitment platform with smart candidate matching', img: 'hireme-mockup.png', url: 'https://hiremeai.vercel.app/', github: '-' },
+    { id: 'luvara', title: 'Luvara', desc: 'AI Drug Repurposing Platform for accelerated discovery', img: 'luvara-mockup.png', url: 'https://luvara.vercel.app/', github: '-' },
+    { id: 'espresso', title: 'Espresso', desc: 'Meet your new Interview Buddy', img: 'espresso.jpg', url: 'https://espresso-interview-buddy.vercel.app/', github: 'https://github.com/dinesh4o/Espresso' },
+    { id: 'sih', title: 'SIH Smart Campus', desc: 'Alumni Smart Campus Frontend', img: 'premium-sih.svg', url: 'https://sih-alumini-smart-campus-frontend.vercel.app/', github: '-' },
+    { id: 'flow', title: 'Flow', desc: 'Live Placeholder', img: 'premium-flow.svg', url: 'https://github.com/dinesh4o/Flow', github: '-' },
+    { id: 'portfolio', title: 'Portfolio', desc: 'My Portfolio Website', img: 'premium-portfolio.svg', url: 'https://github.com/dinesh4o/Portfolio', github: '-' },
+    { id: 'escape-chennai', title: 'Escape Chennai', desc: 'A clothing brand website in Chennai.', img: 'escape-chennai.svg', url: 'https://escape-chennai.vercel.app/', github: '-' },
+    { id: 'chennai-pets', title: 'Chennai Pets', desc: 'A pet accessory shop in Chennai.', img: 'chennai-pets.svg', url: 'https://chennai-pets.ai.studio/', github: '-' }
 ];
 
 const templateHtml = fs.readFileSync('template_arjuna.html', 'utf8');
-const worksBottomHtml = fs.readFileSync('works_bottom.txt', 'utf8');
+const worksHtml = fs.readFileSync('works.1.html', 'utf8');
+const ctaStartIndex = worksHtml.indexOf('<section class="framer-txjj5d" data-framer-name="CTA Wrapper">');
+const worksBottomHtml = ctaStartIndex !== -1 ? worksHtml.substring(ctaStartIndex, worksHtml.indexOf('</body>')) : '';
 
 if (!fs.existsSync('works')) {
     fs.mkdirSync('works');
@@ -35,6 +39,46 @@ projects.forEach(p => {
       }
       if (text.includes('New inquiries in 30 days')) {
         node.nodeValue = 'Download for Windows';
+      }
+        `;
+    }
+    
+    if (p.id === 'escape-chennai') {
+        deepCopy = `
+      if (text.includes('Arjuna is a skilled design engineer')) {
+        node.nodeValue = 'We built a modern one-pager landing page for Escape Chennai, a local clothing brand, to showcase their unique apparel collections.';
+      }
+      if (text.includes('We built a sleek one-page website')) {
+        node.nodeValue = 'The landing page is designed with vibrant colors and smooth scrolling to provide an immersive brand experience and drive customer conversions.';
+      }
+      if (text.includes('Arjuna’s site now reflects his skill')) {
+        node.nodeValue = 'With a focus on mobile responsiveness and fast loading times, the site serves as a perfect digital storefront for the brand\\'s latest drops.';
+      }
+      if (text.includes('Working with Nakula felt personal.')) {
+        node.nodeValue = 'The minimalist approach combined with high-quality product imagery helped Escape Chennai stand out in the competitive fashion market.';
+      }
+      if (text.includes('New inquiries in 30 days')) {
+        node.nodeValue = '10x brand awareness';
+      }
+        `;
+    }
+    
+    if (p.id === 'chennai-pets') {
+        deepCopy = `
+      if (text.includes('Arjuna is a skilled design engineer')) {
+        node.nodeValue = 'A clean and engaging landing page for Chennai Pets, a premier pet accessory shop in Chennai, to highlight their best-selling products.';
+      }
+      if (text.includes('We built a sleek one-page website')) {
+        node.nodeValue = 'The website features a playful design with easy navigation, helping pet owners quickly find the accessories they need for their furry friends.';
+      }
+      if (text.includes('Arjuna’s site now reflects his skill')) {
+        node.nodeValue = 'By integrating clear calls-to-action and a simple layout, the shop saw an increase in local inquiries and online engagement.';
+      }
+      if (text.includes('Working with Nakula felt personal.')) {
+        node.nodeValue = 'We focused on a friendly aesthetic that resonates with animal lovers, perfectly capturing the essence of the Chennai Pets brand.';
+      }
+      if (text.includes('New inquiries in 30 days')) {
+        node.nodeValue = '5x online engagement';
       }
         `;
     }
@@ -69,6 +113,10 @@ projects.forEach(p => {
       if (text === 'Arjuna' || node.nodeValue.includes('Arjuna')) {
         node.nodeValue = node.nodeValue.replace(/Arjuna/g, p.title);
       }
+      if (text === 'ARJUNA' || node.nodeValue.includes('ARJUNA')) {
+        node.nodeValue = node.nodeValue.replace(/ARJUNA/g, p.title.toUpperCase());
+      }
+      
       if (text === 'Personal Portfolio Website for talented design engineer' || node.nodeValue.includes('Personal Portfolio Website for talented design engineer')) {
         node.nodeValue = node.nodeValue.replace('Personal Portfolio Website for talented design engineer', p.desc);
       }
@@ -140,22 +188,39 @@ projects.forEach(p => {
     document.querySelectorAll('img').forEach(img => {
       const src = img.src || img.getAttribute('src') || '';
       
+      // Fix for Splash Screen Logo
       if (src.includes('CQA5T3Vhi3GK8vZJPeYCoOXi1k')) {
-        if (!src.includes(p.img)) {
-          img.style.setProperty('content', 'url("../images/' + p.img + '")', 'important');
-          img.style.objectFit = 'contain';
-          img.src = '../images/' + p.img;
-          img.srcset = '';
-        }
-      } else if (p.id === 'espresso' && src.includes('framerusercontent.com') && !src.includes('3X1HO3X74cUE2rChqeNy9aFq20')) {
-          if (!img.dataset.replacedEspresso) {
-              img.dataset.replacedEspresso = 'true';
-              const newSrc = espressoImages[imgCounter % espressoImages.length];
-              imgCounter++;
-              img.style.setProperty('content', 'url("' + newSrc + '")', 'important');
-              img.style.objectFit = 'contain';
-              img.src = newSrc;
-              img.srcset = '';
+         if (!img.dataset.splashFixed) {
+             img.dataset.splashFixed = 'true';
+             img.style.setProperty('content', 'url("../images/DINESH1.png")', 'important');
+             img.style.objectFit = 'contain';
+             img.src = '../images/DINESH1.png';
+             img.srcset = '';
+         }
+      } 
+      // Replace Arjuna body images with project specific placeholders
+      else if (src.includes('framerusercontent.com') && 
+               !src.includes('3X1HO3X74cUE2rChqeNy9aFq20') && 
+               !src.includes('fByRJnifHpxJBPPalEfESi6BrE')) {
+          
+          if (p.id === 'espresso') {
+              if (!img.dataset.replacedEspresso) {
+                  img.dataset.replacedEspresso = 'true';
+                  const newSrc = espressoImages[imgCounter % espressoImages.length];
+                  imgCounter++;
+                  img.style.setProperty('content', 'url("' + newSrc + '")', 'important');
+                  img.style.objectFit = 'contain';
+                  img.src = newSrc;
+                  img.srcset = '';
+              }
+          } else {
+              if (!img.dataset.replacedProjectImg) {
+                  img.dataset.replacedProjectImg = 'true';
+                  img.style.setProperty('content', 'url("../images/' + p.img + '")', 'important');
+                  img.style.objectFit = 'contain';
+                  img.src = '../images/' + p.img;
+                  img.srcset = '';
+              }
           }
       }
     });
@@ -163,40 +228,45 @@ projects.forEach(p => {
     // Update external "Live Site" links specifically targeting the project link
     document.querySelectorAll('a').forEach(a => {
         const href = a.getAttribute('href');
-        // Only target the original project link (arjuna.framer.media) to avoid breaking template links/footer
         if (href && href.includes('arjuna.framer.media')) {
             if (!a.dataset.livewired) {
                 a.dataset.livewired = 'true';
-                if (p.id === 'espresso') {
-                    // Main button -> Live Site
-                    a.setAttribute('href', 'https://espresso-interview-buddy.vercel.app/');
-                    a.setAttribute('target', '_blank');
-                    const walker = document.createTreeWalker(a, NodeFilter.SHOW_TEXT, null, false);
-                    let tn;
-                    while (tn = walker.nextNode()) {
-                       if (tn.nodeValue.trim().length > 2) tn.nodeValue = "Live Website";
+                
+                a.setAttribute('href', p.url);
+                a.setAttribute('target', '_blank');
+                
+                // Add github button for ALL projects
+                if (!a.dataset.clonedGithub) {
+                    a.dataset.clonedGithub = 'true';
+                    let githubBtn = a.cloneNode(true);
+                    
+                    if (p.github === '-') {
+                        githubBtn.setAttribute('href', '#');
+                        githubBtn.style.opacity = '0.5';
+                        githubBtn.style.cursor = 'not-allowed';
+                        githubBtn.style.pointerEvents = 'none';
+                    } else {
+                        githubBtn.setAttribute('href', p.github || '#');
                     }
                     
-                    // Clone for Github
-                    if (!a.dataset.clonedGithub) {
-                        a.dataset.clonedGithub = 'true';
-                        let githubBtn = a.cloneNode(true);
-                        githubBtn.setAttribute('href', 'https://github.com/dinesh4o/Espresso');
-                        const gWalker = document.createTreeWalker(githubBtn, NodeFilter.SHOW_TEXT, null, false);
-                        let gtn;
-                        while (gtn = gWalker.nextNode()) {
-                           if (gtn.nodeValue.trim().length > 2) gtn.nodeValue = "GitHub Repo";
-                        }
-                        a.parentElement.insertBefore(githubBtn, a.nextSibling);
-                        if (getComputedStyle(a.parentElement).display === 'flex') {
-                            a.parentElement.style.gap = '15px';
-                        } else {
-                            githubBtn.style.marginLeft = '15px';
-                        }
+                    const gWalker = document.createTreeWalker(githubBtn, NodeFilter.SHOW_TEXT, null, false);
+                    let gtn;
+                    while (gtn = gWalker.nextNode()) {
+                       if (gtn.nodeValue.trim().length > 2) gtn.nodeValue = "GitHub Repo";
                     }
-                } else {
-                    a.setAttribute('href', p.url);
-                    a.setAttribute('target', '_blank');
+                    
+                    const aWalker = document.createTreeWalker(a, NodeFilter.SHOW_TEXT, null, false);
+                    let atn;
+                    while (atn = aWalker.nextNode()) {
+                       if (atn.nodeValue.trim().length > 2) atn.nodeValue = "Live Website";
+                    }
+                    
+                    a.parentElement.insertBefore(githubBtn, a.nextSibling);
+                    if (getComputedStyle(a.parentElement).display === 'flex') {
+                        a.parentElement.style.gap = '15px';
+                    } else {
+                        githubBtn.style.marginLeft = '15px';
+                    }
                 }
             }
         }
@@ -229,7 +299,7 @@ projects.forEach(p => {
     }
 
     if (finalHtml.includes('</body>')) {
-        finalHtml = finalHtml.replace('</body>', observerScript + '\\n</body>');
+        finalHtml = finalHtml.replace('</body>', observerScript + '\n</body>');
     } else {
         finalHtml += observerScript;
     }

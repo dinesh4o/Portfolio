@@ -383,7 +383,7 @@
 </style>
 <script id="custom-subpage-injector">
 (function() {
-  const p = {"id":"portfolio","title":"Portfolio","desc":"My Portfolio Website","img":"premium-portfolio.svg","url":"https://github.com/dinesh4o/Portfolio","github":"-"};
+  const p = {"id":"escape-chennai","title":"Escape Chennai","desc":"A clothing brand website in Chennai.","img":"escape-chennai.svg","url":"https://escape-chennai.vercel.app/","github":"-"};
   document.title = p.title + " - Dinesh Portfolio";
 
   const espressoImages = [
@@ -421,6 +421,22 @@
 
       // Deep copy injections
       
+      if (text.includes('Arjuna is a skilled design engineer')) {
+        node.nodeValue = 'We built a modern one-pager landing page for Escape Chennai, a local clothing brand, to showcase their unique apparel collections.';
+      }
+      if (text.includes('We built a sleek one-page website')) {
+        node.nodeValue = 'The landing page is designed with vibrant colors and smooth scrolling to provide an immersive brand experience and drive customer conversions.';
+      }
+      if (text.includes('Arjuna’s site now reflects his skill')) {
+        node.nodeValue = 'With a focus on mobile responsiveness and fast loading times, the site serves as a perfect digital storefront for the brand\'s latest drops.';
+      }
+      if (text.includes('Working with Nakula felt personal.')) {
+        node.nodeValue = 'The minimalist approach combined with high-quality product imagery helped Escape Chennai stand out in the competitive fashion market.';
+      }
+      if (text.includes('New inquiries in 30 days')) {
+        node.nodeValue = '10x brand awareness';
+      }
+        
     }
   }
 

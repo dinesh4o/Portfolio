@@ -383,7 +383,7 @@
 </style>
 <script id="custom-subpage-injector">
 (function() {
-  const p = {"id":"portfolio","title":"Portfolio","desc":"My Portfolio Website","img":"premium-portfolio.svg","url":"https://github.com/dinesh4o/Portfolio","github":"-"};
+  const p = {"id":"chennai-pets","title":"Chennai Pets","desc":"A pet accessory shop in Chennai.","img":"chennai-pets.svg","url":"https://chennai-pets.ai.studio/","github":"-"};
   document.title = p.title + " - Dinesh Portfolio";
 
   const espressoImages = [
@@ -421,6 +421,22 @@
 
       // Deep copy injections
       
+      if (text.includes('Arjuna is a skilled design engineer')) {
+        node.nodeValue = 'A clean and engaging landing page for Chennai Pets, a premier pet accessory shop in Chennai, to highlight their best-selling products.';
+      }
+      if (text.includes('We built a sleek one-page website')) {
+        node.nodeValue = 'The website features a playful design with easy navigation, helping pet owners quickly find the accessories they need for their furry friends.';
+      }
+      if (text.includes('Arjuna’s site now reflects his skill')) {
+        node.nodeValue = 'By integrating clear calls-to-action and a simple layout, the shop saw an increase in local inquiries and online engagement.';
+      }
+      if (text.includes('Working with Nakula felt personal.')) {
+        node.nodeValue = 'We focused on a friendly aesthetic that resonates with animal lovers, perfectly capturing the essence of the Chennai Pets brand.';
+      }
+      if (text.includes('New inquiries in 30 days')) {
+        node.nodeValue = '5x online engagement';
+      }
+        
     }
   }
 
