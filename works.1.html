@@ -7203,6 +7203,12 @@
             overflow: visible !important;
         }
         </style>
+
+<style id="custom-hiding-styles">
+[data-framer-name="Start"], [data-framer-name="Loader"] { display: none !important; opacity: 0 !important; visibility: hidden !important; z-index: -1 !important; }
+[data-framer-name="Latest works"], [data-framer-name="Works"], [data-framer-name="Container"] > div[data-framer-name="Works"], div.framer-1r8m0o2, div.framer-1a4vztv { height: auto !important; max-height: none !important; overflow: visible !important; flex-wrap: wrap !important; }
+.framer-1a4vztv { height: auto !important; display: flex !important; flex-wrap: wrap !important; }
+</style>
 </head>
   <body>
     <script
@@ -17611,7 +17617,10 @@ setInterval(() => {
                    { title: 'Espresso', desc: 'Meet your new Interview Buddy', img: './images/espresso.jpg', url: '/works/espresso' },
                    { title: 'SIH Smart Campus', desc: 'Alumni Smart Campus Frontend', img: './images/premium-sih.svg', url: '/works/sih' },
                    { title: 'Flow', desc: 'Live Placeholder', img: './images/premium-flow.svg', url: '/works/flow' },
-                   { title: 'Portfolio', desc: 'My Portfolio Website', img: './images/premium-portfolio.svg', url: '/works/portfolio' }
+                   { title: 'Portfolio', desc: 'My Portfolio Website', img: './images/premium-portfolio.svg', url: '/works/portfolio' },
+                   { title: 'Escape Chennai', desc: 'A clothing brand website in Chennai.', img: './images/escape-chennai.svg', url: 'https://escape-chennai.vercel.app/' },
+                   { title: 'Chennai Pets', desc: 'A pet accessory shop in Chennai.', img: './images/chennai-pets.svg', url: 'https://chennai-pets.ai.studio/' },
+                   { title: 'Clove Dental', desc: 'A Chennai based dental clinic.', img: './images/clove-dental.svg', url: 'https://clove-dental.ai.studio/' }
                ];
 
                newProjects.forEach(proj => {
