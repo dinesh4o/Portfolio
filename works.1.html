@@ -17578,9 +17578,11 @@ setInterval(() => {
 \n
 
 \n
-<script id="nakula-ui-fix-v10">
+
+\n
+<script id="nakula-ui-fix-v11">
 (function() {
-    if (!window.__nakulaTextPatchedV10) {
+    if (!window.__nakulaTextPatchedV11) {
         window.__nakulaTextPatchedV9 = true;
 
         const R = [
@@ -17630,6 +17632,8 @@ setInterval(() => {
           ["START A PROJECT", "CONTACT ME"],
           ["START A", "CONTACT"],
           ["PROJECT", "ME"],
+          ["+91 6399+2957995", "+91 6382957995"],
+          ["+12 345678", "+91 6382957995"],
         ];
 
         var rawSetData = Object.getOwnPropertyDescriptor(CharacterData.prototype, "data").set;
@@ -17711,7 +17715,7 @@ setInterval(() => {
             });
 
             // 2. Contact Form Wrapper Fix
-            if (path.includes('contact') && !document.getElementById('injected-dinesh-contact-v10')) {
+            if (path.includes('contact') && !document.getElementById('injected-dinesh-contact-v11')) {
                 // hide old versions
                 const oldv7 = document.getElementById('injected-dinesh-contact');
                 if (oldv7) oldv7.style.display = 'none';
@@ -17744,6 +17748,20 @@ setInterval(() => {
             const hideCompletely = ['meet our team', 'origins', 'awards'];
             // V9 FIX: removed phone number fragments so they aren't hidden
             const hideSafely = ['visit us', '(address)', '(office hours)', 'prefer to hop on a call', 'book a call instead', '123 market street', 'los angeles', 'monday - friday', '9:00 am'];
+
+            // V11 FIX: Update title and favicon
+            if (document.title !== "Dinesh - Portfolio") {
+                document.title = "Dinesh - Portfolio";
+            }
+            let link = document.querySelector("link[rel~='icon']");
+            if (!link) {
+                link = document.createElement('link');
+                link.rel = 'icon';
+                document.head.appendChild(link);
+            }
+            if (!link.href.includes('/images/favicon.png')) {
+                link.href = '/images/favicon.png';
+            }
 
             Array.from(document.querySelectorAll('*')).forEach(el => {
                 const txt = (el.textContent || '').trim().toLowerCase();
@@ -17808,7 +17826,7 @@ setInterval(() => {
                     }
                 });
 
-                if (!document.getElementById('injected-dinesh-story-v10')) {
+                if (!document.getElementById('injected-dinesh-story-v11')) {
                     const topSection = document.querySelector('div[data-framer-name="Top"]');
                     if (topSection) {
                         topSection.style.position = 'relative';
@@ -17889,9 +17907,9 @@ setInterval(() => {
                 }
             });
 
-            // 7. Image Mockup overrides for index/works (V10 FIX - CAPTURE CAROUSEL MOCKUPS BY ARRAY INDEX)
+            // 7. Image Mockup overrides for index/works (V11 FIX - TARGET CAROUSEL CAREFULLY AND RESTORE WORK TOGETHER IMAGE)
             if (path === '/' || path === '/index.html' || path === '') {
-                const sliderImgs = Array.from(document.querySelectorAll('img')).filter(img => img.getAttribute('height') === '1340' || (img.width > 500 && img.height > 500 && !img.closest('a')));
+                const sliderImgs = Array.from(document.querySelectorAll('img')).filter(img => img.getAttribute('height') === '1340');
                 
                 sliderImgs.forEach((img, i) => {
                     const mod = i % 5;
@@ -17903,6 +17921,21 @@ setInterval(() => {
                     
                     img.removeAttribute('srcset');
                     img.style.objectFit = 'contain';
+                });
+
+                // V11 FIX: Restore the 'Let's Work Together' background image that was broken by global overrides
+                Array.from(document.querySelectorAll('*')).forEach(el => {
+                    const txt = (el.textContent || '').trim().toLowerCase();
+                    if (txt.includes('let’s work together') || txt.includes("let's work together") || txt.includes('have a project in mind?')) {
+                        const imgs = el.querySelectorAll('img');
+                        imgs.forEach(img => {
+                            if (img.width > 300) {
+                                img.setAttribute('src', 'https://framerusercontent.com/images/3X1HO3X74cUE2rChqeNy9aFq20.jpg');
+                                img.removeAttribute('srcset');
+                                img.style.objectFit = 'cover';
+                            }
+                        });
+                    }
                 });
             }
             if (path.includes('works')) {
@@ -17958,7 +17991,7 @@ setInterval(() => {
                     const lastLink = projectLinks[projectLinks.length - 1];
                     const container = lastLink.parentElement;
                     
-                    if (container && !document.getElementById('injected-sih-card-v10')) {
+                    if (container && !document.getElementById('injected-sih-card-v11')) {
                         const sihCard = lastLink.cloneNode(true);
                         sihCard.id = 'injected-sih-card-v9';
                         sihCard.setAttribute('href', 'https://sih-alumini-smart-campus-frontend.vercel.app/');
@@ -17981,7 +18014,7 @@ setInterval(() => {
                         container.appendChild(sihCard);
                     }
                     
-                    if (container && !document.getElementById('injected-portfolio-card-v10')) {
+                    if (container && !document.getElementById('injected-portfolio-card-v11')) {
                         const portCard = lastLink.cloneNode(true);
                         portCard.id = 'injected-portfolio-card-v9';
                         portCard.setAttribute('href', 'https://github.com/dinesh4o/Portfolio');
