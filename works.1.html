@@ -17562,16 +17562,29 @@ setInterval(() => {
 
 
 \n
-<script id="nakula-ui-fix-v2">
+
+\n
+<script id="nakula-ui-fix-v3">
 (function() {
-    if (!window.__nakulaTextPatchedFull) {
-        window.__nakulaTextPatchedFull = true;
+    if (!window.__nakulaTextPatchedV3) {
+        window.__nakulaTextPatchedV3 = true;
         
         var rawSetData = Object.getOwnPropertyDescriptor(CharacterData.prototype, "data").set;
         var rawSetNodeValue = Object.getOwnPropertyDescriptor(Node.prototype, "nodeValue").set;
         var rawSetTextContent = Object.getOwnPropertyDescriptor(Node.prototype, "textContent").set;
 
         var R = [
+          ["Nakula", "Dinesh"],
+          ["NAKULA", "DINESH"],
+          ["Arjuna", "Aurex"],
+          ["Personal Portfolio Website for talented design engineer", "AI-powered trading assistant with real-time analytics"],
+          ["Bima", "HireMe.ai"],
+          ["Website and branding for AI Automation Company", "AI recruitment platform with smart candidate matching"],
+          ["Batavia", "Luvara"],
+          ["Scale Your Brand With Growth Experts", "AI Drug Repurposing Platform for accelerated discovery"],
+          ["Mandala", "Blueprints 2026"],
+          ["FASHION THAT STANDS THE TEST OF TIME", "Hackathon Winner — GDSC SVCE"],
+
           ["(WHY ME)", "(WHY ME)"],
           ["12+", "200+"],
           ["Successful projects completed", "Github Commits"],
@@ -17593,22 +17606,6 @@ setInterval(() => {
           ["In Client revenue growth", "Production-ready full-stack AI platforms deployed"],
 
           ["hello@nakula.com", "dinesh0x7e8@gmail.com"],
-          ["+12 345678", "+91 6382957995"],
-          
-          ["X/Twitter", "GitHub"],
-          ["Instagram", "LinkedIn"],
-          ["Behance", "WhatsApp"],
-
-          ["Nakula", "Dinesh"],
-          ["NAKULA", "DINESH"],
-          ["Arjuna", "Aurex"],
-          ["Personal Portfolio Website for talented design engineer", "AI-powered trading assistant with real-time analytics"],
-          ["Bima", "HireMe.ai"],
-          ["Website and branding for AI Automation Company", "AI recruitment platform with smart candidate matching"],
-          ["Batavia", "Luvara"],
-          ["Scale Your Brand With Growth Experts", "AI Drug Repurposing Platform for accelerated discovery"],
-          ["Mandala", "Blueprints 2026"],
-          ["FASHION THAT STANDS THE TEST OF TIME", "Hackathon Winner — GDSC SVCE"],
 
           ["Beyond", "Code that"],
           ["Visuals.", "Ships Products."],
@@ -17627,6 +17624,11 @@ setInterval(() => {
 
         function replaceText(t) {
             if (typeof t !== "string" || !t) return t;
+            
+            // Aggressive Phone Replacement for any crazy phone formats
+            t = t.replace(/\+\d{1,3}\s?\d{2,4}\+?\d{4,}/g, '+91 6382957995'); // catch +91 6399+2957995
+            t = t.replace(/\+\d{1,3}\s?\d{6,}/g, '+91 6382957995'); // catch +12 345678
+
             for (var i = 0; i < R.length; i++) {
                 if (R[i][0] === "Built" || R[i][0] === "with" || R[i][0] === "Vision.") {
                     if (t.trim() === R[i][0]) t = R[i][1];
@@ -17659,64 +17661,128 @@ setInterval(() => {
 
     // Interval for DOM manipulation
     setInterval(() => {
-        // 1. Hide Meet Our Team and Dribbble (the 4th social link)
+        const path = window.location.pathname.toLowerCase();
+
         const walker = document.createTreeWalker(document.body, NodeFilter.SHOW_TEXT, null, false);
         let node;
         while (node = walker.nextNode()) {
             const txt = node.nodeValue.trim().toLowerCase();
-            if (txt === 'meet our team' || txt === 'behind nakula' || txt === 'behind dinesh') {
+            
+            // 1. Hide Sections
+            if (txt === 'meet our team' || txt === 'behind nakula' || txt === 'behind dinesh' || txt === 'awards' || txt === 'meet my team') {
                 const section = node.parentElement.closest('.framer-1ar, div[class^="framer-"]');
-                if (section && section.offsetHeight > 200) {
+                if (section && section.offsetHeight > 50) {
                     section.style.display = 'none';
                 } else if (node.parentElement) {
                     node.parentElement.style.display = 'none';
                 }
             }
-            // Hide Dribbble social link
-            if (txt === 'dribbble') {
-                const link = node.parentElement.closest('a');
-                if (link) link.style.display = 'none';
+
+            // 2. Phone force override in nodeValue just in case it was missed
+            if (node.nodeValue && (node.nodeValue.includes('+12') || node.nodeValue.match(/\+\d{1,3}\s?\d{3,}/))) {
+                if (!node.nodeValue.includes('+91 6382957995')) {
+                    node.nodeValue = node.nodeValue.replace(/\+\d{1,3}\s?\d{2,4}\+?\d{3,}/g, '+91 6382957995');
+                }
+            }
+
+            // 3. About page story injection
+            if (path.includes('about') && !document.getElementById('injected-dinesh-story')) {
+                if (txt === 'we combines years of web design and branding expertise to craft meaningful, story-driven experiences.' || txt === 'driven by a passion for ai and problem-solving, i build intelligent systems and consistently push boundaries in competitive programming.') {
+                    // Hide original subtext
+                    if (node.parentElement) node.parentElement.style.display = 'none';
+                    
+                    const container = node.parentElement.closest('div[class^="framer-"]');
+                    if (container && container.parentElement) {
+                        const storyDiv = document.createElement('div');
+                        storyDiv.id = 'injected-dinesh-story';
+                        storyDiv.innerHTML = '<p style="color:#ffffff; font-size:24px; line-height:1.6; max-width:800px; margin: 40px auto; text-align:center; font-family: sans-serif; padding: 20px;">I\'m Dinesh, a passionate Design Engineer and Full-Stack Developer. Driven by an obsession for AI and problem-solving, I build intelligent systems and consistently push boundaries in competitive programming. I thrive at the intersection of beautiful design and complex engineering, turning bold visions into production-ready platforms.</p>';
+                        container.parentElement.appendChild(storyDiv);
+                    }
+                }
             }
         }
 
-        // 2. Replace specific images
-        document.querySelectorAll('img').forEach(img => {
-            const src = img.src || '';
-            if (src.includes('LygfEM1hzZnWcFv8NVM9TC5LoE') || src.includes('2guBNLKizparECDNF5JpIZ4sWA')) {
-                const newSrc = 'https://images.unsplash.com/photo-1550751827-4bd374c3f58b?auto=format&fit=crop&w=2850&q=80';
-                if (img.src !== newSrc) {
-                    img.src = newSrc;
-                    img.srcset = '';
-                    img.style.setProperty('content', 'url("' + newSrc + '")', 'important');
-                    img.style.objectFit = 'cover';
-                }
+        // 4. Contact Page Form Override
+        if (path.includes('contact') && !document.getElementById('injected-dinesh-contact')) {
+            const form = document.querySelector('form') || (document.querySelector('input') ? document.querySelector('input').closest('div[class^="framer-"]') : null);
+            if (form) {
+                const contactDiv = document.createElement('div');
+                contactDiv.id = 'injected-dinesh-contact';
+                contactDiv.style.cssText = 'background: rgba(255,255,255,0.02); padding: 40px; border-radius: 20px; border: 1px solid rgba(255,255,255,0.05); display: flex; flex-direction: column; gap: 20px; color: white; width: 100%; max-width: 500px; z-index: 100; position: relative; margin-bottom: 50px;';
+                contactDiv.innerHTML = `
+                   <h3 style="margin:0; font-size: 28px; font-weight: bold; font-family: sans-serif;">Reach out directly</h3>
+                   <p style="margin:0; color: #aaa; font-size: 16px; font-family: sans-serif; line-height: 1.5;">I'm always open to discussing new projects, creative ideas, or opportunities.</p>
+                   <a href="mailto:dinesh0x7e8@gmail.com" style="display: flex; align-items: center; gap: 15px; color: white; text-decoration: none; padding: 15px; background: rgba(255,255,255,0.05); border-radius: 12px; font-size: 18px; font-weight: bold; border: 1px solid rgba(255,255,255,0.1); font-family: sans-serif;">
+                      <svg width="24" height="24" fill="white" viewBox="0 0 24 24"><path d="M20 4H4c-1.1 0-2 .9-2 2v12c0 1.1.9 2 2 2h16c1.1 0 2-.9 2-2V6c0-1.1-.9-2-2-2zm0 4l-8 5-8-5V6l8 5 8-5v2z"/></svg>
+                      dinesh0x7e8@gmail.com
+                   </a>
+                   <a href="https://wa.me/916382957995" style="display: flex; align-items: center; gap: 15px; color: white; text-decoration: none; padding: 15px; background: rgba(255,255,255,0.05); border-radius: 12px; font-size: 18px; font-weight: bold; border: 1px solid rgba(255,255,255,0.1); font-family: sans-serif;">
+                      <svg width="24" height="24" fill="white" viewBox="0 0 24 24"><path d="M.057 24l1.687-6.163c-1.041-1.804-1.588-3.849-1.587-5.946.003-6.556 5.338-11.891 11.893-11.891 3.181.001 6.167 1.24 8.413 3.488 2.245 2.248 3.481 5.236 3.48 8.414-.003 6.557-5.338 11.892-11.893 11.892-1.99-.001-3.951-.5-5.688-1.448l-6.305 1.654zm6.597-3.807c1.676.995 3.276 1.591 5.392 1.592 5.448 0 9.886-4.434 9.889-9.885.002-5.462-4.415-9.89-9.881-9.892-5.452 0-9.887 4.434-9.889 9.884-.001 2.225.651 3.891 1.746 5.634l-.999 3.648 3.742-.981zm11.387-5.464c-.074-.124-.272-.198-.57-.347-.297-.149-1.758-.868-2.031-.967-.272-.099-.47-.149-.669.149-.198.297-.768.967-.941 1.165-.173.198-.347.223-.644.074-.297-.149-1.255-.462-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.297-.347.446-.521.151-.172.2-.296.3-.495.099-.198.05-.372-.025-.521-.075-.148-.669-1.611-.916-2.206-.242-.579-.487-.501-.669-.51l-.57-.01c-.198 0-.52.074-.792.372s-1.04 1.016-1.04 2.479 1.065 2.876 1.213 3.074c.149.198 2.095 3.2 5.076 4.487.709.306 1.263.489 1.694.626.712.226 1.36.194 1.872.118.571-.085 1.758-.719 2.006-1.413.248-.695.248-1.29.173-1.414z"/></svg>
+                      WhatsApp
+                   </a>
+                `;
+                if(form.parentElement) form.parentElement.style.paddingBottom = "150px";
+                form.replaceWith(contactDiv);
             }
-        });
+        }
 
-        // 3. Fix Social Links & Burger Menu colors
+        // 5. Hide images in about hero
+        if (path.includes('about')) {
+            document.querySelectorAll('img').forEach(img => {
+                const src = img.src || '';
+                if (src.includes('LygfEM1hzZnWcFv8NVM9TC5LoE') || src.includes('2guBNLKizparECDNF5JpIZ4sWA') || src.includes('1550751827-4bd374c3f58b')) {
+                    img.style.display = 'none'; // Completely hide images in About hero
+                    if (img.closest('.framer-xxx')) img.closest('.framer-xxx').style.display = 'none';
+                }
+            });
+        }
+
+        // 6. Fix Social Links & Burger Menu colors and Whatsapp SVG
         document.querySelectorAll('a').forEach(a => {
             const href = (a.getAttribute('href') || '').toLowerCase();
             const txt = (a.textContent || '').toLowerCase();
             
-            if (href.includes('twitter.com') || txt.includes('github')) {
-                a.setAttribute('href', 'https://github.com/dinesh0x7e8');
-            } else if (href.includes('instagram.com') || txt.includes('linkedin')) {
-                a.setAttribute('href', 'https://www.linkedin.com/in/dineshkumar-c-s/');
-            } else if (href.includes('behance.net') || txt.includes('whatsapp')) {
-                a.setAttribute('href', 'https://wa.me/916382957995');
-            } else if (href.includes('dribbble.com') || txt.includes('dribbble')) {
-                a.style.display = 'none'; // Hide the 4th link completely
-            } else if (href.includes('tel:') || txt.includes('+12') || txt.includes('6382957995')) {
+            // Check if it's a social link (by URL or specific text)
+            const isSocial = href.includes('twitter') || href.includes('instagram') || href.includes('linkedin') || href.includes('behance') || href.includes('dribbble') || txt === 'github' || txt === 'linkedin' || txt === 'whatsapp' || txt === 'x/twitter';
+            
+            // Ensure tel links are perfect
+            if (href.includes('tel:') && !href.includes('+916382957995')) {
                 a.setAttribute('href', 'tel:+916382957995');
             }
 
-            // Burger Menu specific fixes (blue icons to white)
-            // If the link text is a social text
-            if (txt.includes('github') || txt.includes('linkedin') || txt.includes('whatsapp') || href.includes('github.com')) {
-                // Remove blue from a tag
-                a.style.setProperty('color', '#ffffff', 'important');
+            if (isSocial) {
+                // If the user hasn't opened menu yet, this runs.
+                if (!a.dataset.fixedSocial) {
+                    if (href.includes('twitter') || txt.includes('twitter') || txt === 'github') {
+                        a.setAttribute('href', 'https://github.com/dinesh0x7e8');
+                        a.childNodes.forEach(n => { if(n.nodeType === 3 && n.nodeValue.trim().length > 0) n.nodeValue = "GitHub" });
+                        a.dataset.fixedSocial = 'github';
+                    } 
+                    else if (href.includes('instagram') || txt.includes('instagram')) {
+                        a.setAttribute('href', 'https://www.linkedin.com/in/dineshkumar-c-s/');
+                        a.childNodes.forEach(n => { if(n.nodeType === 3 && n.nodeValue.trim().length > 0) n.nodeValue = "LinkedIn" });
+                        a.dataset.fixedSocial = 'linkedin';
+                    } 
+                    else if (href.includes('behance') || txt.includes('behance')) {
+                        a.setAttribute('href', 'https://wa.me/916382957995');
+                        a.childNodes.forEach(n => { if(n.nodeType === 3 && n.nodeValue.trim().length > 0) n.nodeValue = "WhatsApp" });
+                        let svg = a.querySelector('svg');
+                        if(svg) {
+                            svg.innerHTML = '<path d="M.057 24l1.687-6.163c-1.041-1.804-1.588-3.849-1.587-5.946.003-6.556 5.338-11.891 11.893-11.891 3.181.001 6.167 1.24 8.413 3.488 2.245 2.248 3.481 5.236 3.48 8.414-.003 6.557-5.338 11.892-11.893 11.892-1.99-.001-3.951-.5-5.688-1.448l-6.305 1.654zm6.597-3.807c1.676.995 3.276 1.591 5.392 1.592 5.448 0 9.886-4.434 9.889-9.885.002-5.462-4.415-9.89-9.881-9.892-5.452 0-9.887 4.434-9.889 9.884-.001 2.225.651 3.891 1.746 5.634l-.999 3.648 3.742-.981zm11.387-5.464c-.074-.124-.272-.198-.57-.347-.297-.149-1.758-.868-2.031-.967-.272-.099-.47-.149-.669.149-.198.297-.768.967-.941 1.165-.173.198-.347.223-.644.074-.297-.149-1.255-.462-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.297-.347.446-.521.151-.172.2-.296.3-.495.099-.198.05-.372-.025-.521-.075-.148-.669-1.611-.916-2.206-.242-.579-.487-.501-.669-.51l-.57-.01c-.198 0-.52.074-.792.372s-1.04 1.016-1.04 2.479 1.065 2.876 1.213 3.074c.149.198 2.095 3.2 5.076 4.487.709.306 1.263.489 1.694.626.712.226 1.36.194 1.872.118.571-.085 1.758-.719 2.006-1.413.248-.695.248-1.29.173-1.414z"/>';
+                            svg.setAttribute('viewBox', '0 0 24 24');
+                        }
+                        a.dataset.fixedSocial = 'whatsapp';
+                    } 
+                    else if (href.includes('dribbble') || txt.includes('dribbble') || txt === 'linkedin') {
+                        // Hide 4th link (dribbble) or duplicate linkedIn
+                        if (a.dataset.fixedSocial !== 'linkedin') {
+                           a.style.display = 'none';
+                        }
+                    }
+                }
                 
-                // Force any SVGs inside to be white
+                // Colors enforce white
+                a.style.setProperty('color', '#ffffff', 'important');
                 a.querySelectorAll('svg, path').forEach(svg => {
                     svg.style.setProperty('fill', '#ffffff', 'important');
                     svg.style.setProperty('color', '#ffffff', 'important');
