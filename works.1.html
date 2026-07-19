@@ -17,6 +17,12 @@
       if (href.includes('bima') || href.includes('hireme')) externalUrl = 'https://hiremeai.vercel.app/';
       if (href.includes('batavia') || href.includes('luvara')) externalUrl = 'https://luvara.vercel.app/';
       
+      if (href.endsWith('/works') || href === './works' || href === 'works' || href === '/works/') {
+         e.preventDefault();
+         e.stopPropagation();
+         window.location.href = '/works';
+         return;
+      }
       if (externalUrl) {
          e.preventDefault();
          e.stopPropagation();
