@@ -155,6 +155,13 @@ projects.forEach(p => {
     });
   });
 
+  // Process existing nodes in the DOM
+  const initialWalker = document.createTreeWalker(document.body, NodeFilter.SHOW_TEXT, null, false);
+  let initialNode;
+  while (initialNode = initialWalker.nextNode()) {
+    processNode(initialNode);
+  }
+
   observer.observe(document.documentElement, {
     childList: true,
     subtree: true,
