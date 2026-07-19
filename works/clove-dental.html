@@ -383,7 +383,7 @@
 </style>
 <script id="custom-subpage-injector">
 (function() {
-  const p = {"id":"aurex","title":"Aurex","desc":"AI-powered trading assistant with real-time analytics","img":"aurex-mockup.png","url":"https://aurexai.vercel.app/","github":"-"};
+  const p = {"id":"clove-dental","title":"Clove Dental","desc":"A Chennai based dental clinic.","img":"clove-dental.svg","url":"https://clove-dental.ai.studio","github":"-"};
   document.title = p.title + " - Dinesh Portfolio";
 
   const espressoImages = [
@@ -414,6 +414,22 @@
 
       // Deep copy injections
       
+      if (text.includes('Arjuna is a skilled design engineer')) {
+        node.nodeValue = 'A premium landing page for Clove Dental, a leading dental clinic in Chennai, focused on showcasing their advanced treatments and expert team.';
+      }
+      if (text.includes('We built a sleek one-page website')) {
+        node.nodeValue = 'The website was designed with a clean, medical-grade aesthetic, ensuring that patients can easily book appointments and explore services.';
+      }
+      if (text.includes('Arjuna’s site now reflects his skill')) {
+        node.nodeValue = 'By prioritizing user trust and accessible information, the new digital presence significantly boosted local search visibility and patient onboarding.';
+      }
+      if (text.includes('Working with Nakula felt personal.')) {
+        node.nodeValue = 'The modern design truly elevated the clinic\'s brand, making the appointment booking process seamless for patients.';
+      }
+      if (text.includes('New inquiries in 30 days')) {
+        node.nodeValue = '3x patient bookings';
+      }
+        
     }
   }
 

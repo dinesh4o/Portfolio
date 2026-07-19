@@ -399,29 +399,56 @@
       let text = node.nodeValue.trim();
       if (!text) return;
 
-      if (text === 'Arjuna' || node.nodeValue.includes('Arjuna')) {
-        node.nodeValue = node.nodeValue.replace(/Arjuna/g, p.title);
-      }
-      if (text === 'ARJUNA' || node.nodeValue.includes('ARJUNA')) {
-        node.nodeValue = node.nodeValue.replace(/ARJUNA/g, p.title.toUpperCase());
-      }
-      
       if (text === 'Personal Portfolio Website for talented design engineer' || node.nodeValue.includes('Personal Portfolio Website for talented design engineer')) {
         node.nodeValue = node.nodeValue.replace('Personal Portfolio Website for talented design engineer', p.desc);
       }
       if (text === 'A clean and strategic portfolio website for a design engineer, built in Framer to showcase projects, personality, and process.' || node.nodeValue.includes('A clean and strategic portfolio website for a design engineer, built in Framer to showcase projects, personality, and process.')) {
         node.nodeValue = node.nodeValue.replace('A clean and strategic portfolio website for a design engineer, built in Framer to showcase projects, personality, and process.', p.desc);
       }
-      if (node.nodeValue.includes('Nakula')) {
-        node.nodeValue = node.nodeValue.replace(/Nakula/g, 'Dinesh');
+      if (node.nodeValue.toLowerCase().includes('nakula')) {
+        node.nodeValue = node.nodeValue.replace(/Nakula/gi, 'Dinesh');
       }
-      if (node.nodeValue.includes('NAKULA')) {
-        node.nodeValue = node.nodeValue.replace(/NAKULA/g, 'DINESH');
+      if (node.nodeValue.toLowerCase().includes('arjuna')) {
+        node.nodeValue = node.nodeValue.replace(/Arjuna/gi, p.title);
       }
 
       // Deep copy injections
       
     }
+  }
+
+  function processTextContentOverrides() {
+      // Find elements whose entire text content is exactly 'Arjuna' or 'ARJUNA' (like split spans)
+      const walkers = document.createTreeWalker(document.body, NodeFilter.SHOW_ELEMENT, {
+          acceptNode: function(node) {
+              if (node.children.length > 0 && node.textContent.trim().toUpperCase() === 'ARJUNA') {
+                  // Only target the deepest elements that contain the full text to avoid replacing the whole document body!
+                  // We check if any child also has the exact text content
+                  let childHasExact = Array.from(node.children).some(c => c.textContent.trim().toUpperCase() === 'ARJUNA');
+                  if (!childHasExact) return NodeFilter.FILTER_ACCEPT;
+              }
+              if (node.children.length > 0 && node.textContent.trim().toUpperCase() === 'NAKULA') {
+                  let childHasExact = Array.from(node.children).some(c => c.textContent.trim().toUpperCase() === 'NAKULA');
+                  if (!childHasExact) return NodeFilter.FILTER_ACCEPT;
+              }
+              return NodeFilter.FILTER_SKIP;
+          }
+      }, false);
+      
+      let elementsToReplace = [];
+      let el;
+      while (el = walkers.nextNode()) {
+          elementsToReplace.push(el);
+      }
+      
+      elementsToReplace.forEach(el => {
+          let txt = el.textContent.trim().toUpperCase();
+          if (txt === 'ARJUNA') {
+              el.innerHTML = '<span style="white-space: nowrap;">' + p.title.toUpperCase().split('').map(c => '<span style="display: inline-block; opacity: 1; transform: none; will-change: transform;">' + c + '</span>').join('') + '</span>';
+          } else if (txt === 'NAKULA') {
+              el.innerHTML = '<span style="white-space: nowrap;">' + 'DINESH'.split('').map(c => '<span style="display: inline-block; opacity: 1; transform: none; will-change: transform;">' + c + '</span>').join('') + '</span>';
+          }
+      });
   }
 
   const observer = new MutationObserver(mutations => {
@@ -442,6 +469,7 @@
         processNode(m.target);
       }
     });
+    processTextContentOverrides();
   });
 
   // Process existing nodes in the DOM
@@ -450,6 +478,7 @@
   while (initialNode = initialWalker.nextNode()) {
     processNode(initialNode);
   }
+  processTextContentOverrides();
 
   observer.observe(document.documentElement, {
     childList: true,

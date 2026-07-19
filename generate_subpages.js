@@ -9,7 +9,8 @@ const projects = [
     { id: 'flow', title: 'Flow', desc: 'Live Placeholder', img: 'premium-flow.svg', url: 'https://github.com/dinesh4o/Flow', github: '-' },
     { id: 'portfolio', title: 'Portfolio', desc: 'My Portfolio Website', img: 'premium-portfolio.svg', url: 'https://github.com/dinesh4o/Portfolio', github: '-' },
     { id: 'escape-chennai', title: 'Escape Chennai', desc: 'A clothing brand website in Chennai.', img: 'escape-chennai.svg', url: 'https://escape-chennai.vercel.app/', github: '-' },
-    { id: 'chennai-pets', title: 'Chennai Pets', desc: 'A pet accessory shop in Chennai.', img: 'chennai-pets.svg', url: 'https://chennai-pets.ai.studio/', github: '-' }
+    { id: 'chennai-pets', title: 'Chennai Pets', desc: 'A pet accessory shop in Chennai.', img: 'chennai-pets.svg', url: 'https://chennai-pets.ai.studio/', github: '-' },
+    { id: 'clove-dental', title: 'Clove Dental', desc: 'A Chennai based dental clinic.', img: 'clove-dental.svg', url: 'https://clove-dental.ai.studio', github: '-' }
 ];
 
 const templateHtml = fs.readFileSync('template_arjuna.html', 'utf8');
@@ -82,6 +83,25 @@ projects.forEach(p => {
       }
         `;
     }
+    if (p.id === 'clove-dental') {
+        deepCopy = `
+      if (text.includes('Arjuna is a skilled design engineer')) {
+        node.nodeValue = 'A premium landing page for Clove Dental, a leading dental clinic in Chennai, focused on showcasing their advanced treatments and expert team.';
+      }
+      if (text.includes('We built a sleek one-page website')) {
+        node.nodeValue = 'The website was designed with a clean, medical-grade aesthetic, ensuring that patients can easily book appointments and explore services.';
+      }
+      if (text.includes('Arjuna’s site now reflects his skill')) {
+        node.nodeValue = 'By prioritizing user trust and accessible information, the new digital presence significantly boosted local search visibility and patient onboarding.';
+      }
+      if (text.includes('Working with Nakula felt personal.')) {
+        node.nodeValue = 'The modern design truly elevated the clinic\\'s brand, making the appointment booking process seamless for patients.';
+      }
+      if (text.includes('New inquiries in 30 days')) {
+        node.nodeValue = '3x patient bookings';
+      }
+        `;
+    }
 
     const observerScript = `
 <style id="custom-hiding-styles">
@@ -110,29 +130,56 @@ projects.forEach(p => {
       let text = node.nodeValue.trim();
       if (!text) return;
 
-      if (text === 'Arjuna' || node.nodeValue.includes('Arjuna')) {
-        node.nodeValue = node.nodeValue.replace(/Arjuna/g, p.title);
-      }
-      if (text === 'ARJUNA' || node.nodeValue.includes('ARJUNA')) {
-        node.nodeValue = node.nodeValue.replace(/ARJUNA/g, p.title.toUpperCase());
-      }
-      
       if (text === 'Personal Portfolio Website for talented design engineer' || node.nodeValue.includes('Personal Portfolio Website for talented design engineer')) {
         node.nodeValue = node.nodeValue.replace('Personal Portfolio Website for talented design engineer', p.desc);
       }
       if (text === 'A clean and strategic portfolio website for a design engineer, built in Framer to showcase projects, personality, and process.' || node.nodeValue.includes('A clean and strategic portfolio website for a design engineer, built in Framer to showcase projects, personality, and process.')) {
         node.nodeValue = node.nodeValue.replace('A clean and strategic portfolio website for a design engineer, built in Framer to showcase projects, personality, and process.', p.desc);
       }
-      if (node.nodeValue.includes('Nakula')) {
-        node.nodeValue = node.nodeValue.replace(/Nakula/g, 'Dinesh');
+      if (node.nodeValue.toLowerCase().includes('nakula')) {
+        node.nodeValue = node.nodeValue.replace(/Nakula/gi, 'Dinesh');
       }
-      if (node.nodeValue.includes('NAKULA')) {
-        node.nodeValue = node.nodeValue.replace(/NAKULA/g, 'DINESH');
+      if (node.nodeValue.toLowerCase().includes('arjuna')) {
+        node.nodeValue = node.nodeValue.replace(/Arjuna/gi, p.title);
       }
 
       // Deep copy injections
       ${deepCopy}
     }
+  }
+
+  function processTextContentOverrides() {
+      // Find elements whose entire text content is exactly 'Arjuna' or 'ARJUNA' (like split spans)
+      const walkers = document.createTreeWalker(document.body, NodeFilter.SHOW_ELEMENT, {
+          acceptNode: function(node) {
+              if (node.children.length > 0 && node.textContent.trim().toUpperCase() === 'ARJUNA') {
+                  // Only target the deepest elements that contain the full text to avoid replacing the whole document body!
+                  // We check if any child also has the exact text content
+                  let childHasExact = Array.from(node.children).some(c => c.textContent.trim().toUpperCase() === 'ARJUNA');
+                  if (!childHasExact) return NodeFilter.FILTER_ACCEPT;
+              }
+              if (node.children.length > 0 && node.textContent.trim().toUpperCase() === 'NAKULA') {
+                  let childHasExact = Array.from(node.children).some(c => c.textContent.trim().toUpperCase() === 'NAKULA');
+                  if (!childHasExact) return NodeFilter.FILTER_ACCEPT;
+              }
+              return NodeFilter.FILTER_SKIP;
+          }
+      }, false);
+      
+      let elementsToReplace = [];
+      let el;
+      while (el = walkers.nextNode()) {
+          elementsToReplace.push(el);
+      }
+      
+      elementsToReplace.forEach(el => {
+          let txt = el.textContent.trim().toUpperCase();
+          if (txt === 'ARJUNA') {
+              el.innerHTML = '<span style="white-space: nowrap;">' + p.title.toUpperCase().split('').map(c => '<span style="display: inline-block; opacity: 1; transform: none; will-change: transform;">' + c + '</span>').join('') + '</span>';
+          } else if (txt === 'NAKULA') {
+              el.innerHTML = '<span style="white-space: nowrap;">' + 'DINESH'.split('').map(c => '<span style="display: inline-block; opacity: 1; transform: none; will-change: transform;">' + c + '</span>').join('') + '</span>';
+          }
+      });
   }
 
   const observer = new MutationObserver(mutations => {
@@ -153,6 +200,7 @@ projects.forEach(p => {
         processNode(m.target);
       }
     });
+    processTextContentOverrides();
   });
 
   // Process existing nodes in the DOM
@@ -161,6 +209,7 @@ projects.forEach(p => {
   while (initialNode = initialWalker.nextNode()) {
     processNode(initialNode);
   }
+  processTextContentOverrides();
 
   observer.observe(document.documentElement, {
     childList: true,
