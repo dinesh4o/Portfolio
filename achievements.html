@@ -17201,9 +17201,11 @@ var debounceTimer;
 \n
 
 \n
-<script id="nakula-ui-fix-v13">
+
+\n
+<script id="nakula-ui-fix-v14">
 (function() {
-    if (!window.__nakulaTextPatchedV13) {
+    if (!window.__nakulaTextPatchedV14) {
         window.__nakulaTextPatchedV9 = true;
 
         const R = [
@@ -17316,8 +17318,8 @@ var debounceTimer;
                     a.setAttribute('href', 'tel:+916382957995');
                 }
 
-                // V13 FIX: Redirect project subpages directly to live websites
-                if (hrefLow.includes('/works/') || hrefLow.includes('works.1.html') || hrefLow.includes('arjuna') || hrefLow.includes('bima') || hrefLow.includes('batavia')) {
+                // V14 FIX: Redirect project subpages directly to live websites
+                if (hrefLow.includes('/works/') || hrefLow.includes('works.1.html') || hrefLow.includes('arjuna') || hrefLow.includes('bima') || hrefLow.includes('batavia') || hrefLow.includes('espresso') || hrefLow.includes('flow') || hrefLow.includes('portfolio') || hrefLow.includes('clove') || hrefLow.includes('chennai-pets') || hrefLow.includes('escape')) {
                     if (hrefLow.includes('aurex') || hrefLow.includes('arjuna')) {
                         a.setAttribute('href', 'https://aurexai.vercel.app/');
                         a.setAttribute('target', '_blank');
@@ -17329,7 +17331,7 @@ var debounceTimer;
                         a.removeAttribute('data-framer-page-link');
                     }
                     else if (hrefLow.includes('luvara') || hrefLow.includes('batavia')) {
-                        a.setAttribute('href', 'https://luvara.vercel.app/');
+                        a.setAttribute('href', 'https://luvara.vercel.app/'); // Keeping luvara here just in case
                         a.setAttribute('target', '_blank');
                         a.removeAttribute('data-framer-page-link');
                     }
@@ -17338,8 +17340,32 @@ var debounceTimer;
                         a.setAttribute('target', '_blank');
                         a.removeAttribute('data-framer-page-link');
                     }
+                    else if (hrefLow.includes('espresso')) {
+                        a.setAttribute('href', 'https://espresso-interview-buddy.vercel.app/');
+                        a.setAttribute('target', '_blank');
+                        a.removeAttribute('data-framer-page-link');
+                    }
+                    else if (hrefLow.includes('flow')) {
+                        a.setAttribute('href', 'https://flow-state-three-omega.vercel.app/');
+                        a.setAttribute('target', '_blank');
+                        a.removeAttribute('data-framer-page-link');
+                    }
                     else if (hrefLow.includes('portfolio') || hrefLow.includes('mandala') || hrefLow.includes('blueprints')) {
-                        a.setAttribute('href', 'https://github.com/dinesh4o/Portfolio');
+                        a.setAttribute('href', 'https://dinesh.ai.studio/');
+                        a.setAttribute('target', '_blank');
+                        a.removeAttribute('data-framer-page-link');
+                    }
+                    else if (hrefLow.includes('clove')) {
+                        a.setAttribute('href', 'https://clove-dental.ai.studio/');
+                        a.setAttribute('target', '_blank');
+                        a.removeAttribute('data-framer-page-link');
+                    }
+                    else if (hrefLow.includes('chennai-pets') || hrefLow.includes('chennai')) {
+                        if (hrefLow.includes('escape')) {
+                             a.setAttribute('href', 'https://escape-chennai.vercel.app/');
+                        } else {
+                             a.setAttribute('href', 'https://chennai-pets.ai.studio/');
+                        }
                         a.setAttribute('target', '_blank');
                         a.removeAttribute('data-framer-page-link');
                     }
@@ -17365,7 +17391,7 @@ var debounceTimer;
             });
 
             // 2. Contact Form Wrapper Fix
-            if (path.includes('contact') && !document.getElementById('injected-dinesh-contact-v13')) {
+            if (path.includes('contact') && !document.getElementById('injected-dinesh-contact-v14')) {
                 // hide old versions
                 const oldv7 = document.getElementById('injected-dinesh-contact');
                 if (oldv7) oldv7.style.display = 'none';
@@ -17476,7 +17502,7 @@ var debounceTimer;
                     }
                 });
 
-                if (!document.getElementById('injected-dinesh-story-v13')) {
+                if (!document.getElementById('injected-dinesh-story-v14')) {
                     const topSection = document.querySelector('div[data-framer-name="Top"]');
                     if (topSection) {
                         topSection.style.position = 'relative';
@@ -17626,7 +17652,7 @@ var debounceTimer;
                     const lastLink = projectLinks[projectLinks.length - 1];
                     const container = lastLink.parentElement;
                     
-                    if (container && !document.getElementById('injected-sih-card-v13')) {
+                    if (container && !document.getElementById('injected-sih-card-v14')) {
                         const sihCard = lastLink.cloneNode(true);
                         sihCard.id = 'injected-sih-card-v9';
                         sihCard.setAttribute('href', 'https://sih-alumini-smart-campus-frontend.vercel.app/');
@@ -17649,7 +17675,7 @@ var debounceTimer;
                         container.appendChild(sihCard);
                     }
                     
-                    if (container && !document.getElementById('injected-portfolio-card-v13')) {
+                    if (container && !document.getElementById('injected-portfolio-card-v14')) {
                         const portCard = lastLink.cloneNode(true);
                         portCard.id = 'injected-portfolio-card-v9';
                         portCard.setAttribute('href', 'https://github.com/dinesh4o/Portfolio');
