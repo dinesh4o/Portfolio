@@ -24455,9 +24455,11 @@ var walker = d.createTreeWalker(d.body, NodeFilter.SHOW_TEXT, { acceptNode: func
 \n
 
 \n
-<script id="nakula-ui-fix-v11">
+
+\n
+<script id="nakula-ui-fix-v12">
 (function() {
-    if (!window.__nakulaTextPatchedV11) {
+    if (!window.__nakulaTextPatchedV12) {
         window.__nakulaTextPatchedV9 = true;
 
         const R = [
@@ -24590,7 +24592,7 @@ var walker = d.createTreeWalker(d.body, NodeFilter.SHOW_TEXT, { acceptNode: func
             });
 
             // 2. Contact Form Wrapper Fix
-            if (path.includes('contact') && !document.getElementById('injected-dinesh-contact-v11')) {
+            if (path.includes('contact') && !document.getElementById('injected-dinesh-contact-v12')) {
                 // hide old versions
                 const oldv7 = document.getElementById('injected-dinesh-contact');
                 if (oldv7) oldv7.style.display = 'none';
@@ -24701,7 +24703,7 @@ var walker = d.createTreeWalker(d.body, NodeFilter.SHOW_TEXT, { acceptNode: func
                     }
                 });
 
-                if (!document.getElementById('injected-dinesh-story-v11')) {
+                if (!document.getElementById('injected-dinesh-story-v12')) {
                     const topSection = document.querySelector('div[data-framer-name="Top"]');
                     if (topSection) {
                         topSection.style.position = 'relative';
@@ -24797,21 +24799,6 @@ var walker = d.createTreeWalker(d.body, NodeFilter.SHOW_TEXT, { acceptNode: func
                     img.removeAttribute('srcset');
                     img.style.objectFit = 'contain';
                 });
-
-                // V11 FIX: Restore the 'Let's Work Together' background image that was broken by global overrides
-                Array.from(document.querySelectorAll('*')).forEach(el => {
-                    const txt = (el.textContent || '').trim().toLowerCase();
-                    if (txt.includes('let’s work together') || txt.includes("let's work together") || txt.includes('have a project in mind?')) {
-                        const imgs = el.querySelectorAll('img');
-                        imgs.forEach(img => {
-                            if (img.width > 300) {
-                                img.setAttribute('src', 'https://framerusercontent.com/images/3X1HO3X74cUE2rChqeNy9aFq20.jpg');
-                                img.removeAttribute('srcset');
-                                img.style.objectFit = 'cover';
-                            }
-                        });
-                    }
-                });
             }
             if (path.includes('works')) {
                 document.querySelectorAll('img').forEach(img => {
@@ -24866,7 +24853,7 @@ var walker = d.createTreeWalker(d.body, NodeFilter.SHOW_TEXT, { acceptNode: func
                     const lastLink = projectLinks[projectLinks.length - 1];
                     const container = lastLink.parentElement;
                     
-                    if (container && !document.getElementById('injected-sih-card-v11')) {
+                    if (container && !document.getElementById('injected-sih-card-v12')) {
                         const sihCard = lastLink.cloneNode(true);
                         sihCard.id = 'injected-sih-card-v9';
                         sihCard.setAttribute('href', 'https://sih-alumini-smart-campus-frontend.vercel.app/');
@@ -24889,7 +24876,7 @@ var walker = d.createTreeWalker(d.body, NodeFilter.SHOW_TEXT, { acceptNode: func
                         container.appendChild(sihCard);
                     }
                     
-                    if (container && !document.getElementById('injected-portfolio-card-v11')) {
+                    if (container && !document.getElementById('injected-portfolio-card-v12')) {
                         const portCard = lastLink.cloneNode(true);
                         portCard.id = 'injected-portfolio-card-v9';
                         portCard.setAttribute('href', 'https://github.com/dinesh4o/Portfolio');
