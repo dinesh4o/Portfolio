@@ -1,31 +1,32 @@
 const fs = require('fs');
 
 const projects = [
-    { id: 'aurex', title: 'Aurex', desc: 'AI-powered trading assistant with real-time analytics', img: 'aurex-mockup.png', url: 'https://aurexai.vercel.app/', github: '-' },
-    { id: 'hireme', title: 'HireMe.ai', desc: 'AI recruitment platform with smart candidate matching', img: 'hireme-mockup.png', url: 'https://hiremeai.vercel.app/', github: '-' },
-    { id: 'luvara', title: 'Luvara', desc: 'AI Drug Repurposing Platform for accelerated discovery', img: 'luvara-mockup.png', url: 'https://luvara.vercel.app/', github: '-' },
-    { id: 'espresso', title: 'Espresso', desc: 'Meet your new Interview Buddy', img: 'espresso.jpg', url: 'https://espresso-interview-buddy.vercel.app/', github: 'https://github.com/dinesh4o/Espresso' },
-    { id: 'sih', title: 'SIH Smart Campus', desc: 'Alumni Smart Campus Frontend', img: 'premium-sih.svg', url: 'https://sih-alumini-smart-campus-frontend.vercel.app/', github: '-' },
-    { id: 'flow', title: 'Flow', desc: 'Live Placeholder', img: 'premium-flow.svg', url: 'https://github.com/dinesh4o/Flow', github: '-' },
-    { id: 'portfolio', title: 'Portfolio', desc: 'My Portfolio Website', img: 'premium-portfolio.svg', url: 'https://github.com/dinesh4o/Portfolio', github: '-' },
-    { id: 'escape-chennai', title: 'Escape Chennai', desc: 'A clothing brand website in Chennai.', img: 'escape-chennai.svg', url: 'https://escape-chennai.vercel.app/', github: '-' },
-    { id: 'chennai-pets', title: 'Chennai Pets', desc: 'A pet accessory shop in Chennai.', img: 'chennai-pets.svg', url: 'https://chennai-pets.ai.studio/', github: '-' },
-    { id: 'clove-dental', title: 'Clove Dental', desc: 'A Chennai based dental clinic.', img: 'clove-dental.svg', url: 'https://clove-dental.ai.studio', github: '-' }
+  { id: 'aurex', title: 'Aurex', desc: 'AI-powered trading assistant with real-time analytics', img: 'aurex-mockup.png', url: 'https://aurexai.vercel.app/', github: '-' },
+  { id: 'hireme', title: 'HireMe.ai', desc: 'AI recruitment platform with smart candidate matching', img: 'hireme-mockup.png', url: 'https://hiremeai.vercel.app/', github: '-' },
+  { id: 'luvara', title: 'Luvara', desc: 'AI Drug Repurposing Platform for accelerated discovery', img: 'luvara-mockup.png', url: 'https://luvara.vercel.app/', github: '-' },
+  { id: 'espresso', title: 'Espresso', desc: 'Meet your new Interview Buddy', img: 'espresso.jpg', url: 'https://espresso-interview-buddy.vercel.app/', github: 'https://github.com/dinesh4o/Espresso' },
+  { id: 'sih', title: 'SIH Smart Campus', desc: 'Alumni Smart Campus Frontend', img: 'premium-sih.svg', url: 'https://sih-alumini-smart-campus-frontend.vercel.app/', github: '-' },
+  { id: 'flow', title: 'Flow', desc: 'Live Placeholder', img: 'premium-flow.svg', url: 'https://github.com/dinesh4o/Flow', github: '-' },
+  { id: 'portfolio', title: 'Portfolio', desc: 'My Portfolio Website', img: 'premium-portfolio.svg', url: 'https://github.com/dinesh4o/Portfolio', github: '-' },
+  { id: 'escape-chennai', title: 'Escape Chennai', desc: 'A clothing brand website in Chennai.', img: 'escape-chennai.svg', url: 'https://escape-chennai.vercel.app/', github: '-' },
+  { id: 'chennai-pets', title: 'Chennai Pets', desc: 'A pet accessory shop in Chennai.', img: 'chennai-pets.svg', url: 'https://chennai-pets.ai.studio/', github: '-' },
+  { id: 'clove-dental', title: 'Clove Dental', desc: 'A Chennai based dental clinic.', img: 'clove-dental.svg', url: 'https://clove-dental.ai.studio', github: '-' }
 ];
 
-const templateHtml = fs.readFileSync('template_arjuna.html', 'utf8');
+let templateHtml = fs.readFileSync('template_arjuna.html', 'utf8');
+templateHtml = templateHtml.replace('</head>', '<style>[data-framer-name="Start"], [data-framer-name="Loader"] { display: none !important; opacity: 0 !important; visibility: hidden !important; z-index: -1 !important; }</style></head>');
 const worksHtml = fs.readFileSync('works.1.html', 'utf8');
 const ctaStartIndex = worksHtml.indexOf('<section class="framer-txjj5d" data-framer-name="CTA Wrapper">');
 const worksBottomHtml = ctaStartIndex !== -1 ? worksHtml.substring(ctaStartIndex, worksHtml.indexOf('</body>')) : '';
 
 if (!fs.existsSync('works')) {
-    fs.mkdirSync('works');
+  fs.mkdirSync('works');
 }
 
 projects.forEach(p => {
-    let deepCopy = '';
-    if (p.id === 'espresso') {
-        deepCopy = `
+  let deepCopy = '';
+  if (p.id === 'espresso') {
+    deepCopy = `
       if (text.includes('Arjuna is a skilled design engineer')) {
         node.nodeValue = 'Practice naturally with our charming AI. Real-time voice feedback, tailored interview questions, and a friendly face to help you land that dream job.';
       }
@@ -42,10 +43,10 @@ projects.forEach(p => {
         node.nodeValue = 'Download for Windows';
       }
         `;
-    }
-    
-    if (p.id === 'escape-chennai') {
-        deepCopy = `
+  }
+
+  if (p.id === 'escape-chennai') {
+    deepCopy = `
       if (text.includes('Arjuna is a skilled design engineer')) {
         node.nodeValue = 'We built a modern one-pager landing page for Escape Chennai, a local clothing brand, to showcase their unique apparel collections.';
       }
@@ -62,10 +63,10 @@ projects.forEach(p => {
         node.nodeValue = '10x brand awareness';
       }
         `;
-    }
-    
-    if (p.id === 'chennai-pets') {
-        deepCopy = `
+  }
+
+  if (p.id === 'chennai-pets') {
+    deepCopy = `
       if (text.includes('Arjuna is a skilled design engineer')) {
         node.nodeValue = 'A clean and engaging landing page for Chennai Pets, a premier pet accessory shop in Chennai, to highlight their best-selling products.';
       }
@@ -82,9 +83,9 @@ projects.forEach(p => {
         node.nodeValue = '5x online engagement';
       }
         `;
-    }
-    if (p.id === 'clove-dental') {
-        deepCopy = `
+  }
+  if (p.id === 'clove-dental') {
+    deepCopy = `
       if (text.includes('Arjuna is a skilled design engineer')) {
         node.nodeValue = 'A premium landing page for Clove Dental, a leading dental clinic in Chennai, focused on showcasing their advanced treatments and expert team.';
       }
@@ -101,9 +102,9 @@ projects.forEach(p => {
         node.nodeValue = '3x patient bookings';
       }
         `;
-    }
+  }
 
-    const observerScript = `
+  const observerScript = `
 <style id="custom-hiding-styles">
   [data-framer-name="Testimonial highlight"],
   #testimonial,
@@ -343,23 +344,23 @@ projects.forEach(p => {
 </script>
 `;
 
-    let finalHtml = templateHtml;
+  let finalHtml = templateHtml;
 
-    // Statically replace the original Nakula CTA and footer with the Works page's CTA and footer
-    const ctaStart = finalHtml.indexOf('<section class="framer-txjj5d" data-framer-name="CTA Wrapper">');
-    if (ctaStart !== -1) {
-        const scriptStart = finalHtml.indexOf('<script', ctaStart);
-        if (scriptStart !== -1) {
-            finalHtml = finalHtml.substring(0, ctaStart) + worksBottomHtml + finalHtml.substring(scriptStart);
-        }
+  // Statically replace the original Nakula CTA and footer with the Works page's CTA and footer
+  const ctaStart = finalHtml.indexOf('<section class="framer-txjj5d" data-framer-name="CTA Wrapper">');
+  if (ctaStart !== -1) {
+    const scriptStart = finalHtml.indexOf('<script', ctaStart);
+    if (scriptStart !== -1) {
+      finalHtml = finalHtml.substring(0, ctaStart) + worksBottomHtml + finalHtml.substring(scriptStart);
     }
+  }
 
-    if (finalHtml.includes('</body>')) {
-        finalHtml = finalHtml.replace('</body>', observerScript + '\n</body>');
-    } else {
-        finalHtml += observerScript;
-    }
+  if (finalHtml.includes('</body>')) {
+    finalHtml = finalHtml.replace('</body>', observerScript + '\n</body>');
+  } else {
+    finalHtml += observerScript;
+  }
 
-    fs.writeFileSync('works/' + p.id + '.html', finalHtml);
-    console.log('Created works/' + p.id + '.html');
+  fs.writeFileSync('works/' + p.id + '.html', finalHtml);
+  console.log('Created works/' + p.id + '.html');
 });
